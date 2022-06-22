@@ -1,5 +1,6 @@
-package com.example.frame;
+package com.example.common.application;
 
+import com.example.common.application.FrameApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
