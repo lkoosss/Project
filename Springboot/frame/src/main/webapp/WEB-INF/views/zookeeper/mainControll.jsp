@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,11 +8,11 @@
     <title>Insert title here</title>
 
     <!-- CSS 적용 -->
-    <link type="text/css" rel="stylesheet" href="/css/zookeeper/mainControll.css" />
+    <link type="text/css" rel="stylesheet" href="/css/views/zookeeper/mainControll.css" />
 
     <!-- Script -->
     <script type="text/javascript" src="/js/lib/jquery.min_1.12.4.js"></script>
-    <script type="text/javascript" src="/js/zookeeper/mainControll.js"></script>
+    <script type="text/javascript" src="/js/views/zookeeper/mainControll.js"></script>
 
 </head>
 <body>
@@ -20,7 +23,9 @@
             <p>key</p>
             <input type="text" name="keyForSelect" id="keyForSelect" class="znodeInput"/>
 
-            <button id="selectZnodeBtn">Select</button>
+            <button id="selectZnodeValueBtn">Value</button>
+            <button id="selectZnodeStateBtn">State</button>
+            <button id="selectZnodeChildBtn">Child</button>
         </div>
 
         <div class="createBox">
@@ -68,7 +73,7 @@
         <p>Value</p>
         <input type="text" name="valueForResult" id="valueForResult" class="znodeInput"/>
 
-        <h1 id="stateForResult"></h1>
+        <h3 id="stateForResult"></h3>
     </div>
 </div>
 </body>

@@ -25,6 +25,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Zookeeper Curator Lib
+    implementation group: 'org.apache.curator', name: 'curator-recipes', version: '4.0.1'
+    //implementation group: 'org.apache.curator', name: 'curator-x-async', version: '4.0.1'
+    //implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.8.0'
+
+    // JSP 라이브러리
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'javax.servlet:jstl'
 }
 
 tasks.named('test') {

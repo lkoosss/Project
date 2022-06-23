@@ -8,6 +8,8 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        System.setProperty("spring.config.location", "classpath:/config/springboot/");   // application.yml 위치를 변경한다.
+
         return application.sources(FrameApplication.class);
     }
 
