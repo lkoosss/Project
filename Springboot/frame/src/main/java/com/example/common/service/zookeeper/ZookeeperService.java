@@ -197,15 +197,12 @@ public class ZookeeperService {
 	}
 	
 	///// Znode에 속한 하위 znodeKey들을 조회 /////
-	public String selectZnodeChildren(String znodeKey) {
+	public List<String> selectZnodeChildren(String znodeKey) {
 		znodeKey = this.repairZnodeKey(znodeKey);
-		String result = "";
+		List<String> result = null;
 		try {
 			if (this.client.checkExists().forPath(znodeKey) != null) {
-				List <String> children = this.client.getChildren().forPath(znodeKey);
-				result = children.toString();
-				
-				children = null;
+				result = this.client.getChildren().forPath(znodeKey);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

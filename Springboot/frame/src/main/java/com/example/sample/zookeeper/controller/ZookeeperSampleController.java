@@ -78,4 +78,14 @@ public class ZookeeperSampleController {
         result.setZnodeState(this.zookeeperService.selectZnodeState(znodeKey));
         return result;
     }
+
+    ///////// Zookeeper Znode 하위 Znode 조회  /////////
+    @RequestMapping(value = "/zookeeper/selectChild", method = {RequestMethod.POST, RequestMethod.GET})
+    public ZookeeperResponseModel selectChild(HttpServletRequest request, @RequestBody ZookeeperRequestModel data) {
+        String znodeKey = data.getZnodeKey();
+
+        ZookeeperResponseModel result = new ZookeeperResponseModel();
+        result.setZnodeChild(this.zookeeperService.selectZnodeChildren(znodeKey));
+        return result;
+    }
 }

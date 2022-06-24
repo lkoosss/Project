@@ -1,9 +1,12 @@
 package com.example.sample.zookeeper.model;
 
+import java.util.List;
+
 public class ZookeeperResponseModel {
 	private String znodeKey;
 	private String znodeValue;
 	private String znodeState;
+	private List<String> znodeChild;
 	private boolean result = true;
 
 	public String getZnodeKey() {
@@ -34,5 +37,13 @@ public class ZookeeperResponseModel {
 
 	public void setZnodeState(String znodeState) {
 		this.znodeState = znodeState;
+	}
+
+	public List<String> getZnodeChild() {
+		return znodeChild;
+	}
+
+	public void setZnodeChild(List<String> znodeChild) {
+		this.znodeChild = znodeChild;
 	}
 }

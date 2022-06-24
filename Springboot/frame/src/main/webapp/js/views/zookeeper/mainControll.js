@@ -21,6 +21,11 @@ mainControll.createEvent = function() {
 	$('#selectZnodeStateBtn').click(function() {
 		mainControll.selectZnodeState();
 	})
+
+	// Select Znode Child Btn 클릭
+	$('#selectZnodeChildBtn').click(function() {
+		mainControll.selectZnodeChild();
+	})
 	
 	// Create Btn 클릭
 	$('#createZnodeBtn').click(function() {
@@ -80,7 +85,34 @@ mainControll.selectZnodeState = function() {
 			if (receiveData.result == true) {
 				$('#stateForResult').text(receiveData.znodeState);
 			} else {
-				$('#stateForResult').text('create fail');
+				$('#stateForResult').text('select fail');
+			}
+		},
+		'error'		: function(error) {
+			console.log(error)
+		}
+	})
+}
+
+// Znode Child 조회
+mainControll.selectZnodeChild = function() {
+	$('#stateForResult').text('')
+	var znodeKey = $('#keyForSelect').val();
+	var sendData = {
+		znodeKey : znodeKey
+	}
+	$.ajax({
+		'type'			: 'POST',
+		'url'			: '/zookeeper/selectChild',
+		'data'			: JSON.stringify(sendData),
+		'contentType'	: 'application/json; charset=utf-8',
+		'dataType'		: 'json',
+		'success'		: function(receiveData) {
+			if (receiveData.result == true) {
+				console.log(receiveData)
+				$('#stateForResult').text(receiveData.znodeChild+ "   length : "+receiveData.znodeChild.length);
+			} else {
+				$('#stateForResult').text('select fail');
 			}
 		},
 		'error'		: function(error) {
