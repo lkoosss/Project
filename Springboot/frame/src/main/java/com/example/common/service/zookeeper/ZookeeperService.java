@@ -3,6 +3,9 @@ package com.example.common.service.zookeeper;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.recipes.cache.TreeCache;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
+import org.apache.curator.framework.recipes.cache.TreeCacheListener;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.zookeeper.CreateMode;
@@ -27,6 +30,9 @@ public class ZookeeperService {
 	// 분산 Lock을 위한 객체
 	private int waitTimeForAcquireLock = 5;
 
+	// znode Watcher를 위한 변수
+	HashMap<String, TreeCache> treeCacheHashMap;
+
 
 	public ZookeeperService() {
 		Collections.shuffle(serverArrayList);
@@ -37,6 +43,7 @@ public class ZookeeperService {
 		
 		//CloseableUtils.closeQuietly(client);
 		serverList = null;
+		treeCacheHashMap = new HashMap<String, TreeCache>();
 	}
 	
 	///// ZnodeValue 조회 /////
@@ -211,6 +218,59 @@ public class ZookeeperService {
 		}
 		
 		return result;
+	}
+
+	// Znode에 Watcher 설정
+	public void setWatcher(String znodeKey) {
+		String inputZnodeKey = this.repairZnodeKey(znodeKey);
+		TreeCache treeCache = new TreeCache(this.client, inputZnodeKey);
+		treeCacheHashMap.put(inputZnodeKey, treeCache);
+
+		try {
+			treeCache.start();
+			addListener(treeCache);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	// Znode에 Watcher 리스너 등록
+	public void addListener(TreeCache treeCache) {
+
+		TreeCacheListener listener = new TreeCacheListener() {
+			@Override
+			public void childEvent(CuratorFramework client, TreeCacheEvent event) throws Exception {
+				String targetZnodeKey = event.getData().getPath();
+				switch (event.getType()) {
+					case NODE_ADDED: {
+						System.out.println("Node added : " + targetZnodeKey);
+						if (targetZnodeKey.contains("command_1")) {
+							System.out.println("do command 1");
+						} else if (targetZnodeKey.contains("command_2")) {
+							System.out.println("do command 2");
+						} else if (targetZnodeKey.contains("command_3")) {
+							System.out.println("do command 3");
+						}
+						System.out.println("");
+					} break;
+					case NODE_UPDATED: {
+						System.out.println("Node updated : " + targetZnodeKey);
+						System.out.println("");
+					} break;
+					case NODE_REMOVED: {
+						System.out.println("Node removed : " + targetZnodeKey);
+						System.out.println("");
+					} break;
+				}
+			}
+		};
+		treeCache.getListenable().addListener(listener);
+	}
+
+	// Znode Watcher 등록해제, 리스너 등록해제
+	public void unsetWatcher(String znodeKey) {
+		String inputZnodeKey = this.repairZnodeKey(znodeKey);
+		treeCacheHashMap.get(inputZnodeKey).close();
 	}
 	
 	// Znode Key 값 체크 및 수정

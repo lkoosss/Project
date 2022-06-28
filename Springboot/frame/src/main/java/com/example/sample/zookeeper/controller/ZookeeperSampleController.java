@@ -88,4 +88,19 @@ public class ZookeeperSampleController {
         result.setZnodeChild(this.zookeeperService.selectZnodeChildren(znodeKey));
         return result;
     }
+
+    ///////// Zookeeper Znode Watcher 등록 /////////
+    @RequestMapping(value = "/zookeeper/eddy/setWatcher", method = {RequestMethod.POST, RequestMethod.GET})
+    public void setWatcher(HttpServletRequest request, @RequestBody ZookeeperRequestModel data) {
+        String znodeKey = data.getZnodeKey();
+
+        this.zookeeperService.setWatcher(znodeKey);
+    }
+
+    ///////// Zookeeper Znode Watcher 해제 /////////
+    @RequestMapping(value = "/zookeeper/eddy/unsetWatcher", method = {RequestMethod.POST, RequestMethod.GET})
+    public void unsetWatcher(HttpServletRequest request, @RequestBody ZookeeperRequestModel data) {
+        String znodeKey = data.getZnodeKey();
+        this.zookeeperService.unsetWatcher(znodeKey);
+    }
 }
