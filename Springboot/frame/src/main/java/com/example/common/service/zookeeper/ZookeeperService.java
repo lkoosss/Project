@@ -21,81 +21,91 @@ public class ZookeeperService {
 	private int sleepMsBetweenRetries = 100;
 	private int maxRetries = 3;
 	private RetryPolicy retryPolicy = new RetryNTimes(maxRetries, sleepMsBetweenRetries);
-	
+
 	// 연결 서버 선택 관련 변수
 	private List<String> serverArrayList = new ArrayList<>(Arrays.asList("192.168.5.151:2181", "192.168.5.152:2181", "192.168.5.153:2181"));
 
 	private CuratorFramework client;
-	
+
 	// 분산 Lock을 위한 객체
 	private int waitTimeForAcquireLock = 5;
 
 	// znode Watcher를 위한 변수
 	HashMap<String, TreeCache> treeCacheHashMap;
 
+	// znode Watcher 테스트를 위한 변수
+	public static HashMap<String, String> watcherResultHashMap = new HashMap<String, String>();
+	int faultCount = 0;
+
 
 	public ZookeeperService() {
 		Collections.shuffle(serverArrayList);
 		String serverList = serverArrayList.toString().replace("[", "").replace("]", "").replace(" ", "");
-		
+
 		this.client = CuratorFrameworkFactory.newClient(serverList, retryPolicy);
 		this.client.start();
-		
+
 		//CloseableUtils.closeQuietly(client);
 		serverList = null;
 		treeCacheHashMap = new HashMap<String, TreeCache>();
 	}
-	
+
 	///// ZnodeValue 조회 /////
 	public String selectZnode(String znodeKey) {
 		String result = "";
-		znodeKey = this.repairZnodeKey(znodeKey);
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 		try {
-			if (client.checkExists().forPath(znodeKey) != null) {
-				result = new String(this.client.getData().forPath(znodeKey));
+			if (client.checkExists().forPath(repairZnodeKey) != null) {
+				result = new String(this.client.getData().forPath(repairZnodeKey));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			znodeKey = null;
+			znodeKey		= null;
+			repairZnodeKey 	= null;
 		}
-		
+
 		return result;
 	}
-	
+
 	///// Znode 등록 /////
 	public boolean createZnode(CreateMode znodeType, String znodeKey, String znodeValue) {
 		boolean result = false;
-		znodeKey = this.repairZnodeKey(znodeKey);
-		
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
+
 		try {
-			if (this.client.checkExists().forPath(znodeKey) == null) {
-				this.client.create().creatingParentsIfNeeded().withMode(znodeType).forPath(znodeKey, znodeValue.getBytes());
+			if (this.client.checkExists().forPath(repairZnodeKey) == null) {
+				String requestInfo = "create -> " + repairZnodeKey;
+				this.watcherResultHashMap.put(requestInfo, "");
+				this.client.create().creatingParentsIfNeeded().withMode(znodeType).forPath(repairZnodeKey, znodeValue.getBytes());
 				result = true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = false;
 		} finally {
-			znodeType 	= null;
-			znodeKey 	= null;
-			znodeValue	= null;
+			znodeType 		= null;
+			znodeKey		= null;
+			repairZnodeKey 	= null;
+			znodeValue		= null;
 		}
-		
+
 		return result;
 	}
 
 	///// Znode 수정 /////
 	public boolean updateZnode(String znodeKey, String znodeValue) {
 		boolean result = false;
-		znodeKey = this.repairZnodeKey(znodeKey);
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 
 		// 정상 서비스용
-		InterProcessMutex lock = new InterProcessMutex(this.client, znodeKey);
+		InterProcessMutex lock = new InterProcessMutex(this.client, repairZnodeKey);
 
 		try {
-			if (lock.acquire(this.waitTimeForAcquireLock, TimeUnit.SECONDS) && this.client.checkExists().forPath(znodeKey) != null) {
-				this.client.setData().forPath(znodeKey, znodeValue.getBytes());
+			if (lock.acquire(this.waitTimeForAcquireLock, TimeUnit.SECONDS) && this.client.checkExists().forPath(repairZnodeKey) != null) {
+				String requestInfo = "update -> " + repairZnodeKey;
+				this.watcherResultHashMap.put(requestInfo, "");
+				this.client.setData().forPath(repairZnodeKey, znodeValue.getBytes());
 				result = true;
 			}
 		} catch (Exception e) {
@@ -107,9 +117,10 @@ public class ZookeeperService {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			znodeKey 	= null;
-			znodeValue 	= null;
-			lock 		= null;
+			znodeKey		= null;
+			repairZnodeKey 	= null;
+			znodeValue 		= null;
+			lock 			= null;
 		}
 
 
@@ -133,21 +144,23 @@ public class ZookeeperService {
 //
 		return result;
 	}
-	
+
 	///// Znode 삭제 /////
 	public boolean deleteZnode(String znodeKey) {
 		boolean result = false;
-		znodeKey = this.repairZnodeKey(znodeKey);
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 		String parentZnodeKey = null;
 		try {
-			if (this.client.checkExists().forPath(znodeKey) != null) {
-				this.client.delete().deletingChildrenIfNeeded().forPath(znodeKey);
+			if (this.client.checkExists().forPath(repairZnodeKey) != null) {
+				String requestInfo = "delete -> " + repairZnodeKey;
+				this.watcherResultHashMap.put(requestInfo, "");
+				this.client.delete().deletingChildrenIfNeeded().forPath(repairZnodeKey);
 
 				// 부모 Znode가 자식 Znode를 가지고 있지 않으면 Depth를 올라가며 연쇄적으로 삭제한다.
-				while (znodeKey.lastIndexOf("/") != 0) {							// 최상위 /가 아닐때까지 반복
-					znodeKey = znodeKey.substring(0,znodeKey.lastIndexOf("/"));		// "/1/2/3" -> "/1/2" 가됨
-					if (this.client.getChildren().forPath(znodeKey).size() == 0) {		// 부모 Znode에 속한 자식 Znode가 없으면 삭제
-						this.client.delete().deletingChildrenIfNeeded().forPath(znodeKey);
+				while (repairZnodeKey.lastIndexOf("/") > 0) {							// 최상위 /가 아닐때까지 반복
+					repairZnodeKey = repairZnodeKey.substring(0,repairZnodeKey.lastIndexOf("/"));		// "/1/2/3" -> "/1/2" 가됨
+					if (this.client.getChildren().forPath(repairZnodeKey).size() == 0) {		// 부모 Znode에 속한 자식 Znode가 없으면 삭제
+						this.client.delete().deletingChildrenIfNeeded().forPath(repairZnodeKey);
 					} else {	// 부모 Znode에 속한 자식 Znode가 있으면 연쇄삭제 멈춤
 						break;
 					}
@@ -160,23 +173,24 @@ public class ZookeeperService {
 			e.printStackTrace();
 			result = false;
 		} finally {
-			znodeKey = null;
+			znodeKey		= null;
+			repairZnodeKey 	= null;
 		}
-		
+
 		return result;
 	}
-	
+
 	///// Znode State 조회 /////
 	public String selectZnodeState(String znodeKey) {
-		znodeKey = this.repairZnodeKey(znodeKey);
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 		String result = "";
 		try {
-			if (this.client.checkExists().forPath(znodeKey) != null) {
+			if (this.client.checkExists().forPath(repairZnodeKey) != null) {
 				Stat stat = new Stat();
-				String receiveZnodeValue = new String(this.client.getData().storingStatIn(stat).forPath(znodeKey));
+				String receiveZnodeValue = new String(this.client.getData().storingStatIn(stat).forPath(repairZnodeKey));
 				Date ctime = new Date(stat.getCtime());
 				Date mtime = new Date(stat.getMtime());
-				result = "znodeKey : " + znodeKey + ", ";
+				result = "znodeKey : " + repairZnodeKey + ", ";
 				result = result + "znodeValue : " + receiveZnodeValue + ", ";
 				result = result + "cZxid : " + stat.getCzxid() + ", ";
 				result = result + "ctime : " + ctime.toString() + ", ";
@@ -188,7 +202,7 @@ public class ZookeeperService {
 				result = result + "ephemeralOwner : " + stat.getEphemeralOwner() + ", ";
 				result = result + "dataLength : " + stat.getDataLength() + ", ";
 				result = result + "numChildren : " + stat.getNumChildren();
-				
+
 				receiveZnodeValue = null;
 				stat = null;
 				ctime = null;
@@ -197,95 +211,165 @@ public class ZookeeperService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			znodeKey = null;
+			znodeKey		= null;
+			repairZnodeKey 	= null;
 		}
-		
+
 		return result;
 	}
-	
+
 	///// Znode에 속한 하위 znodeKey들을 조회 /////
 	public List<String> selectZnodeChildren(String znodeKey) {
-		znodeKey = this.repairZnodeKey(znodeKey);
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 		List<String> result = null;
 		try {
-			if (this.client.checkExists().forPath(znodeKey) != null) {
-				result = this.client.getChildren().forPath(znodeKey);
+			if (this.client.checkExists().forPath(repairZnodeKey) != null) {
+				result = this.client.getChildren().forPath(repairZnodeKey);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			znodeKey = null;
+			repairZnodeKey = null;
 		}
-		
+
 		return result;
 	}
 
 	// Znode에 Watcher 설정
 	public void setWatcher(String znodeKey) {
-		String inputZnodeKey = this.repairZnodeKey(znodeKey);
-		TreeCache treeCache = new TreeCache(this.client, inputZnodeKey);
-		treeCacheHashMap.put(inputZnodeKey, treeCache);
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
+		TreeCache treeCache = null;
 
-		try {
-			treeCache.start();
-			addListener(treeCache);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+		// Watcher 중복검사
+		if (this.treeCacheHashMap.containsKey(repairZnodeKey) == false) {		// 중복된 Watcher가 없을 때
+			treeCache = new TreeCache(this.client, repairZnodeKey);
+			this.treeCacheHashMap.put(repairZnodeKey, treeCache);
 
-	// Znode에 Watcher 리스너 등록
-	public void addListener(TreeCache treeCache) {
-
-		TreeCacheListener listener = new TreeCacheListener() {
-			@Override
-			public void childEvent(CuratorFramework client, TreeCacheEvent event) throws Exception {
-				String targetZnodeKey = event.getData().getPath();
-				switch (event.getType()) {
-					case NODE_ADDED: {
-						System.out.println("Node added : " + targetZnodeKey);
-						if (targetZnodeKey.contains("command_1")) {
-							System.out.println("do command 1");
-						} else if (targetZnodeKey.contains("command_2")) {
-							System.out.println("do command 2");
-						} else if (targetZnodeKey.contains("command_3")) {
-							System.out.println("do command 3");
+			try {
+				// repairZnodeKey 에 해당하는 treeCache를 생성
+				treeCache.start();
+				// 리스너를 생성하고 실행할 코드를 정의
+				TreeCacheListener listener = new TreeCacheListener() {
+					boolean isInit = false;
+					@Override
+					public void childEvent(CuratorFramework client, TreeCacheEvent event) throws Exception {
+						// 리스너가 시작 될 때
+						if (event.getType() == TreeCacheEvent.Type.INITIALIZED) {
+							isInit = true;
 						}
-						System.out.println("");
-					} break;
-					case NODE_UPDATED: {
-						System.out.println("Node updated : " + targetZnodeKey);
-						System.out.println("");
-					} break;
-					case NODE_REMOVED: {
-						System.out.println("Node removed : " + targetZnodeKey);
-						System.out.println("");
-					} break;
-				}
+
+						// 리스너가 시작이 된 후
+						if (isInit == true) {
+							// 이벤트 타입별로 구분될 수 있게한다.
+							switch (event.getType()) {
+								case NODE_ADDED: {		// 새로운 Znode가 생성 될 때
+
+									// 테스트를 위한 코드
+									String responseInfo = "create -> " + event.getData().getPath();
+									String requestInfo = responseInfo;
+									watcherResultHashMap.replace(requestInfo,responseInfo);
+
+									// 정상 서비를 위한 코드
+//									System.out.println("\n" + "Node added : " + event.toString());
+//									if (event.getData().getPath().contains("command_1")) {
+//										System.out.println("do command 1");
+//									} else if (event.getData().getPath().contains("command_2")) {
+//										System.out.println("do command 2");
+//									} else if (event.getData().getPath().contains("command_3")) {
+//										System.out.println("do command 3");
+//									}
+
+								} break;
+								case NODE_UPDATED: {	// Znode가 변경 될 때
+									// 테스트를 위한 코드
+									String responseInfo = "update -> " + event.getData().getPath();
+									String requestInfo = responseInfo;
+									watcherResultHashMap.replace(requestInfo,responseInfo);
+
+									// 정상 서비스를 위한 코드
+//									System.out.println("\n" + "Node updated : " + event.toString());
+								} break;
+								case NODE_REMOVED: {	// Znode가 삭제 될 때
+									// 테스트를 위한 코드
+									String responseInfo = "delete -> " + event.getData().getPath();
+									String requestInfo = responseInfo;
+									watcherResultHashMap.replace(requestInfo,responseInfo);
+
+									// 정상 서비스를 위한 코드
+//									System.out.println("\n" + "Node removed : " + event.toString());
+								} break;
+							}
+						}
+					}
+				};
+				// 생성한 리스너를 등록하고 실행함
+				treeCache.getListenable().addListener(listener);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
-		};
-		treeCache.getListenable().addListener(listener);
+
+		} else {		// 중복된 Watcher가 존재할 때
+			System.out.println("Watcher already registered in Znode, " + repairZnodeKey);
+		}
+
+		// 리소스 반환 처리
+		repairZnodeKey	= null;
+		znodeKey		= null;
+		treeCache		= null;
 	}
 
-	// Znode Watcher 등록해제, 리스너 등록해제
+
+	// Znode Watcher 해제, 리스너 해제
 	public void unsetWatcher(String znodeKey) {
-		String inputZnodeKey = this.repairZnodeKey(znodeKey);
-		treeCacheHashMap.get(inputZnodeKey).close();
+		String repairZnodeKey = this.repairZnodeKey(znodeKey);
+
+		if (treeCacheHashMap.containsKey(repairZnodeKey) == true) {
+			treeCacheHashMap.get(repairZnodeKey).close();
+			treeCacheHashMap.remove(repairZnodeKey);
+		} else {
+			System.out.println(repairZnodeKey + " Watcher not exist");
+		}
+
+		// 리소스 반환처리
+		repairZnodeKey	= null;
+		znodeKey		= null;
 	}
-	
+
+	public void watcherTestResultCalculate() {
+		Iterator<String> requestInfoGroup = this.watcherResultHashMap.keySet().iterator();
+
+		while (requestInfoGroup.hasNext()) {
+			String requestInfo = requestInfoGroup.next();
+			String responseInfo = watcherResultHashMap.get(requestInfo);
+
+			if (!requestInfo.equals(responseInfo)) {
+				System.out.println(requestInfo + " / " + responseInfo);
+				this.faultCount++;
+			}
+		}
+
+		System.out.println("Test Try Count : " + this.watcherResultHashMap.size() + " fail Count : " + this.faultCount);
+		System.out.println("listner Count : " + this.treeCacheHashMap.size());
+		this.faultCount = 0;
+	}
+
+	public void resetWatcherResult() {
+		this.watcherResultHashMap.clear();this.faultCount = 0;
+	}
+
 	// Znode Key 값 체크 및 수정
 	private String repairZnodeKey(String znodeKey) {
 		znodeKey = znodeKey.trim();
-		
+
 		if (znodeKey.charAt(0) != '/') {
 			znodeKey = "/" + znodeKey;
 		}
-		
+
 		if (znodeKey.charAt(znodeKey.length() - 1) == '/') {
 			znodeKey = znodeKey.substring(0, znodeKey.length() - 1);
 		}
-		
+
 		return znodeKey;
 	}
-	
+
 }

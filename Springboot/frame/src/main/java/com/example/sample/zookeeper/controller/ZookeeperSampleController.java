@@ -90,7 +90,7 @@ public class ZookeeperSampleController {
     }
 
     ///////// Zookeeper Znode Watcher 등록 /////////
-    @RequestMapping(value = "/zookeeper/eddy/setWatcher", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/zookeeper/setWatcher", method = {RequestMethod.POST, RequestMethod.GET})
     public void setWatcher(HttpServletRequest request, @RequestBody ZookeeperRequestModel data) {
         String znodeKey = data.getZnodeKey();
 
@@ -98,9 +98,21 @@ public class ZookeeperSampleController {
     }
 
     ///////// Zookeeper Znode Watcher 해제 /////////
-    @RequestMapping(value = "/zookeeper/eddy/unsetWatcher", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/zookeeper/unsetWatcher", method = {RequestMethod.POST, RequestMethod.GET})
     public void unsetWatcher(HttpServletRequest request, @RequestBody ZookeeperRequestModel data) {
         String znodeKey = data.getZnodeKey();
         this.zookeeperService.unsetWatcher(znodeKey);
+    }
+
+    ///////// Zookeeper Znode Watcher 테스트 결과 /////////
+    @RequestMapping(value = "/zookeeper/testWatcher", method = {RequestMethod.POST, RequestMethod.GET})
+    public void testWatcher() {
+        this.zookeeperService.watcherTestResultCalculate();
+    }
+
+    ///////// Zookeeper Znode Watcher 테스트 결과 Reset /////////
+    @RequestMapping(value = "/zookeeper/resetWatcherResult", method = {RequestMethod.POST, RequestMethod.GET})
+    public void resetWatcherResult() {
+        this.zookeeperService.resetWatcherResult();
     }
 }
