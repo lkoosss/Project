@@ -26,6 +26,8 @@
             <button id="selectZnodeValueBtn">Value</button>
             <button id="selectZnodeStateBtn">State</button>
             <button id="selectZnodeChildBtn">Child</button>
+            <button id="setZnodeWatcherBtn">Set Watcher</button>
+            <button id="unsetZnodeWatcherBtn">Unset Watcher</button>
         </div>
 
         <div class="createBox">

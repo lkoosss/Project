@@ -1,5 +1,6 @@
 package com.example.sample.zookeeper.controller;
 
+import com.example.common.constant.SystemProp;
 import com.example.common.service.zookeeper.ZookeeperService;
 import com.example.sample.zookeeper.model.ZookeeperRequestModel;
 import com.example.sample.zookeeper.model.ZookeeperResponseModel;
@@ -93,7 +94,6 @@ public class ZookeeperSampleController {
     @RequestMapping(value = "/zookeeper/setWatcher", method = {RequestMethod.POST, RequestMethod.GET})
     public void setWatcher(HttpServletRequest request, @RequestBody ZookeeperRequestModel data) {
         String znodeKey = data.getZnodeKey();
-
         this.zookeeperService.setWatcher(znodeKey);
     }
 
@@ -104,15 +104,4 @@ public class ZookeeperSampleController {
         this.zookeeperService.unsetWatcher(znodeKey);
     }
 
-    ///////// Zookeeper Znode Watcher 테스트 결과 /////////
-    @RequestMapping(value = "/zookeeper/testWatcher", method = {RequestMethod.POST, RequestMethod.GET})
-    public void testWatcher() {
-        this.zookeeperService.watcherTestResultCalculate();
-    }
-
-    ///////// Zookeeper Znode Watcher 테스트 결과 Reset /////////
-    @RequestMapping(value = "/zookeeper/resetWatcherResult", method = {RequestMethod.POST, RequestMethod.GET})
-    public void resetWatcherResult() {
-        this.zookeeperService.resetWatcherResult();
-    }
 }

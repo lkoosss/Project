@@ -1,0 +1,18 @@
+###############################
+# Service 설정 정의
+# - 설정 추가 시 Service: 하위로 생성
+###############################
+service:
+  name: frame
+  id: frame
+  ip: 127.0.0.1
+
+  # aConfig 설정
+  aConfig:
+    A1: 111
+    A2: sampleTxt
+
+  # bConfig 설정
+  bConfig:
+    B1: 222
+    B2: sampleTxt

@@ -23,13 +23,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Zookeeper Curator Lib
     implementation group: 'org.apache.curator', name: 'curator-recipes', version: '4.0.1'
-    //implementation group: 'org.apache.curator', name: 'curator-x-async', version: '4.0.1'
-    //implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.8.0'
+    implementation group: 'org.apache.curator', name: 'curator-x-async', version: '4.0.1'
+    implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.8.0'
 
     // JSP Lib
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'

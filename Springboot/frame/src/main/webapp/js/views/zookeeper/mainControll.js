@@ -26,7 +26,17 @@ mainControll.createEvent = function() {
 	$('#selectZnodeChildBtn').click(function() {
 		mainControll.selectZnodeChild();
 	})
-	
+
+	// set Znode Watcher Btn 클릭
+	$('#setZnodeWatcherBtn').click(function() {
+		mainControll.setZnodeWatcher();
+	})
+
+	// unset Znode Watcher Btn 클릭
+	$('#unsetZnodeWatcherBtn').click(function() {
+		mainControll.unsetZnodeWatcher();
+	})
+
 	// Create Btn 클릭
 	$('#createZnodeBtn').click(function() {
 		mainControll.createZnode();
@@ -219,6 +229,46 @@ mainControll.deleteZnoe = function() {
 			}
 		},
 		'error'			: function(error) {
+			console.log(error);
+		}
+	})
+}
+
+mainControll.setZnodeWatcher = function() {
+	var sendData = {
+		znodeKey : $('#keyForSelect').val()
+	}
+
+	$.ajax({
+		'type' : 'POST',
+		'url' : '/zookeeper/setWatcher',
+		'data' : JSON.stringify(sendData),
+		'contentType' : 'application/json; charset=utf-8',
+		'dataType' : 'json',
+		'success' : function(receiveData) {
+
+		},
+		'error' : function(error) {
+			console.log(error);
+		}
+	})
+}
+
+mainControll.unsetZnodeWatcher = function() {
+	var sendData = {
+		znodeKey : $('#keyForSelect').val()
+	}
+
+	$.ajax({
+		'type' : 'POST',
+		'url' : '/zookeeper/unsetWatcher',
+		'data' : JSON.stringify(sendData),
+		'contentType' : 'application/json; charset=utf-8',
+		'dataType' : 'json',
+		'success' : function(receiveData) {
+
+		},
+		'error' : function(error) {
 			console.log(error);
 		}
 	})

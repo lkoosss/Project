@@ -7,3 +7,11 @@ server.servlet.jsp.init-parameters.development: true
 ## file Manager Key 설정
 fileManager:
   keyValue: "0123456789012345"
+
+
+## 외부 설정파일 경로
+spring:
+  config:
+    import:
+      - classpath:config/properties/system/system-properties.yml
+      - classpath:config/properties/service/service-properties.yml
