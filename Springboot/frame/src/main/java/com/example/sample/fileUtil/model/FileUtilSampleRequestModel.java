@@ -14,5 +14,6 @@ public class FileUtilSampleRequestModel {
     private String data;
     private String destinationPath;
     private String sourcePath;
+    private String delimiter;
     private List<String> sourcePathList = new ArrayList<String>();
 }

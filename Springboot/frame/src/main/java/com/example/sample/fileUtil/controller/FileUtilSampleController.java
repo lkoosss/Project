@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -82,5 +83,14 @@ public class FileUtilSampleController {
 
         boolean result = FileUtil.decryptFromFile(sourcePath, destinationPath);
         return result;
+    }
+
+    @RequestMapping(value = "/fileUtil/loadDelimitedData", method = {RequestMethod.POST, RequestMethod.GET})
+    public void loadDelimitedData(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
+        String sourcePath = data.getSourcePath();
+        String delimiter = data.getDelimiter();
+
+        List<List<String>> loadData = FileUtil.loadDelimitedData(sourcePath, delimiter);
+        System.out.println("loadData.toString() = " + loadData.toString());
     }
 }

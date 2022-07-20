@@ -1,5 +1,6 @@
 package com.example.common.util;
 
+import ch.qos.logback.core.rolling.helper.FileStoreUtil;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -25,6 +26,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -444,5 +446,47 @@ public class FileUtil {
 
         return result;
     }
+
+    public static List<List<String>> loadDelimitedData(String sourcePath, String delimiter) {
+        Boolean result = true;
+        Path fromPath = Paths.get(sourcePath);
+        List<List<String>> loadData = new ArrayList<>();
+
+        // 유효성 검사
+        if (!Files.exists(fromPath)) {
+            LOGGER.error("File read Failed, Source File : {}, not exist", fromPath);
+            result = false;
+        } else if (Files.isDirectory(fromPath)) {
+            LOGGER.error("File read Failed, Source File : {}, is a directory", fromPath);
+            result = false;
+        }
+
+
+        if (result == true) {
+            try {
+                List<String> lineDelimitedData = Files.readAllLines(fromPath);
+                for(String singleLineData : lineDelimitedData) {
+                    List<String> delimitedData = new ArrayList<>();
+                    for(String data : singleLineData.split(delimiter)){
+                        if (data.trim().equals("")) {
+                            continue;
+                        } else {
+                            delimitedData.add(data.trim());
+                        }
+                    }
+                    loadData.add(delimitedData);
+                }
+
+            } catch (IOException e) {
+                LOGGER.error("File read Failed, loadDelimitedData Exception : {}", e.getMessage());
+            }
+        }
+
+        fromPath = null;
+
+        return loadData;
+    }
+
+
     
 }
