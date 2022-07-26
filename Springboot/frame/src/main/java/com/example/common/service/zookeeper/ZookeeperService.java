@@ -34,6 +34,9 @@ public class ZookeeperService {
 	HashMap<String, TreeCache> treeCacheHashMap;
 
 
+	/**
+	 * Instantiates a new Zookeeper service.
+	 */
 	public ZookeeperService() {
 		Collections.shuffle(serverArrayList);
 		String serverList = serverArrayList.toString().replace("[", "").replace("]", "").replace(" ", "");
@@ -45,7 +48,15 @@ public class ZookeeperService {
 		treeCacheHashMap = new HashMap<String, TreeCache>();
 	}
 
-	////////// ZnodeValue 조회 //////////
+	/**
+	 * <pre>
+	 * selectZnode
+	 * ZnodeValue 조회
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 * @return the string
+	 */
 	public String selectZnode(String znodeKey) {
 		String result = "";
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
@@ -63,7 +74,17 @@ public class ZookeeperService {
 		return result;
 	}
 
-	////////// Znode 등록 //////////
+	/**
+	 * <pre>
+	 * createZnode
+	 * Znode 등록
+	 * </pre>
+	 *
+	 * @param znodeType
+	 * @param znodeKey
+	 * @param znodeValue
+	 * @return the boolean
+	 */
 	public boolean createZnode(CreateMode znodeType, String znodeKey, String znodeValue) {
 		boolean result = false;
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
@@ -86,7 +107,16 @@ public class ZookeeperService {
 		return result;
 	}
 
-	////////// Znode 수정 //////////
+	/**
+	 * <pre>
+	 * updateZnode
+	 * Znode 수정
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 * @param znodeValue
+	 * @return the boolean
+	 */
 	public boolean updateZnode(String znodeKey, String znodeValue) {
 		boolean result = false;
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
@@ -117,7 +147,15 @@ public class ZookeeperService {
 		return result;
 	}
 
-	////////// Znode 삭제 //////////
+	/**
+	 * <pre>
+	 * deleteZnode
+	 * Znode 삭제
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 * @return the boolean
+	 */
 	public boolean deleteZnode(String znodeKey) {
 		boolean result = false;
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
@@ -150,7 +188,15 @@ public class ZookeeperService {
 		return result;
 	}
 
-	////////// Znode State 조회 //////////
+	/**
+	 * <pre>
+	 * selectZnodeState
+	 * Znode State 조회
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 * @return the string
+	 */
 	public String selectZnodeState(String znodeKey) {
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 		String result = "";
@@ -188,7 +234,15 @@ public class ZookeeperService {
 		return result;
 	}
 
-	////////// Znode에 속한 하위 znodeKey들을 조회 //////////
+	/**
+	 * <pre>
+	 * selectZnodeChildren
+	 * Znode에 속한 하위 znodeKey들을 조회
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 * @return the list
+	 */
 	public List<String> selectZnodeChildren(String znodeKey) {
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 		List<String> result = null;
@@ -206,7 +260,14 @@ public class ZookeeperService {
 		return result;
 	}
 
-	////////// Znode에 Watcher 설정 //////////
+	/**
+	 * <pre>
+	 * setWatcher
+	 * Znode에 Watcher 설정
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 */
 	public void setWatcher(String znodeKey) {
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 		TreeCache treeCache = null;
@@ -269,7 +330,14 @@ public class ZookeeperService {
 		treeCache		= null;
 	}
 
-	////////// Znode Watcher 해제, 리스너 해제 //////////
+	/**
+	 * <pre>
+	 * unsetWatcher
+	 * Znode Watcher 해제, 리스너 해제
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 */
 	public void unsetWatcher(String znodeKey) {
 		String repairZnodeKey = this.repairZnodeKey(znodeKey);
 
@@ -285,7 +353,15 @@ public class ZookeeperService {
 		znodeKey		= null;
 	}
 
-	////////// Znode Key 값 체크 및 수정 //////////
+	/**
+	 * <pre>
+	 * repairZnodeKey
+	 * Znode Key 값 체크 및 수정
+	 * </pre>
+	 *
+	 * @param znodeKey
+	 * @return the string
+	 */
 	private String repairZnodeKey(String znodeKey) {
 		znodeKey = znodeKey.trim();
 

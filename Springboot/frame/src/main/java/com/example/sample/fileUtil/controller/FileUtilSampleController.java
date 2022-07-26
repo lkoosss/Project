@@ -9,14 +9,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.List;
 
 @RestController
 @ComponentScan
 public class FileUtilSampleController {
 
-    ///////// Data 저장 /////////
+    /**
+     * <pre>
+     * saveDataToFile
+     * Data 저장
+     * </pre>
+     *
+     * @param request
+     * @param data
+     * @return the boolean
+     */
     @RequestMapping(value = "/fileUtil/saveDataToFile", method = {RequestMethod.POST, RequestMethod.GET})
     public boolean saveDataToFile(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         byte[] saveData = data.getData().getBytes();
@@ -26,7 +34,16 @@ public class FileUtilSampleController {
         return result;
     }
 
-    ///////// Data 조회 /////////
+    /**
+     * <pre>
+     * loadDataFromFile
+     * Data 조회
+     * </pre>
+     *
+     * @param request
+     * @param data
+     * @return the string
+     */
     @RequestMapping(value = "/fileUtil/loadDataFromFile", method = {RequestMethod.POST, RequestMethod.GET})
     public String loadDataFromFile(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         String sourcePath = data.getSourcePath();
@@ -35,7 +52,16 @@ public class FileUtilSampleController {
         return result;
     }
 
-    ///////// File 압축(tar.gz) /////////
+    /**
+     * <pre>
+     * compressFromFiles
+     * File 압축(tar.gz)
+     * </pre>
+     *
+     * @param request
+     * @param data
+     * @return the boolean
+     */
     @RequestMapping(value = "/fileUtil/compressFromFiles", method = {RequestMethod.POST, RequestMethod.GET})
     public boolean compressFromFiles(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         String destinationPath = data.getDestinationPath();
@@ -45,7 +71,16 @@ public class FileUtilSampleController {
         return result;
     }
 
-    ///////// Directory 압축(tar.gz) /////////
+    /**
+     * <pre>
+     * compressFromDirectories
+     * Directory 압축(tar.gz)
+     * </pre>
+     *
+     * @param request
+     * @param data
+     * @return the boolean
+     */
     @RequestMapping(value = "/fileUtil/compressFromDirectories", method = {RequestMethod.POST, RequestMethod.GET})
     public boolean compressFromDirectories(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         String sourcePath = data.getSourcePath();
@@ -55,7 +90,16 @@ public class FileUtilSampleController {
         return result;
     }
 
-    ///////// Directory 압축해제(tar.gz) /////////
+    /**
+     * <pre>
+     * decompressFromArchiveFile
+     * Directory 압축해제(tar.gz)
+     * </pre>
+     *
+     * @param request
+     * @param data
+     * @return the boolean
+     */
     @RequestMapping(value = "/fileUtil/decompressFromArchiveFile", method = {RequestMethod.POST, RequestMethod.GET})
     public boolean decompressFromArchiveFile(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         String sourcePath = data.getSourcePath();
@@ -65,7 +109,16 @@ public class FileUtilSampleController {
         return result;
     }
 
-    ///////// 파일 암호화 /////////
+    /**
+     * <pre>
+     * encryptFromFile
+     * 파일 암호화
+     * </pre>
+     *
+     * @param request
+     * @param data
+     * @return the boolean
+     */
     @RequestMapping(value = "/fileUtil/encryptFromFile", method = {RequestMethod.POST, RequestMethod.GET})
     public boolean encryptFromFile(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         String sourcePath = data.getSourcePath();
@@ -75,7 +128,16 @@ public class FileUtilSampleController {
         return result;
     }
 
-    ///////// 파일 복호화 /////////
+    /**
+     * <pre>
+     * decryptFromFile
+     * 파일 복호화
+     * </pre>
+     *
+     * @param request
+     * @param data
+     * @return the boolean
+     */
     @RequestMapping(value = "/fileUtil/decryptFromFile", method = {RequestMethod.POST, RequestMethod.GET})
     public boolean decryptFromFile(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         String sourcePath = data.getSourcePath();
@@ -85,6 +147,15 @@ public class FileUtilSampleController {
         return result;
     }
 
+    /**
+     * <pre>
+     * loadDelimitedData
+     * 파일 내용 구분자로 나눠 읽기
+     * </pre>
+     *
+     * @param request
+     * @param data
+     */
     @RequestMapping(value = "/fileUtil/loadDelimitedData", method = {RequestMethod.POST, RequestMethod.GET})
     public void loadDelimitedData(HttpServletRequest request, @RequestBody FileUtilSampleRequestModel data) {
         String sourcePath = data.getSourcePath();

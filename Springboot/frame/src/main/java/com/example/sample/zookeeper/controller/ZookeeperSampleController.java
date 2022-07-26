@@ -1,13 +1,11 @@
 package com.example.sample.zookeeper.controller;
 
-import com.example.common.constant.SystemProp;
 import com.example.common.service.zookeeper.ZookeeperService;
 import com.example.sample.zookeeper.model.ZookeeperRequestModel;
 import com.example.sample.zookeeper.model.ZookeeperResponseModel;
 import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
