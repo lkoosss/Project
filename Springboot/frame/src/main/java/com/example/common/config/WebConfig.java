@@ -1,6 +1,6 @@
 package com.example.common.config;
 
-import com.example.common.interceptor.SessionInterceptor;
+import com.example.app.lifecycle.interceptor.SessionInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

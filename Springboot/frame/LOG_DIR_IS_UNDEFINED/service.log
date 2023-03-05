@@ -147,3 +147,53 @@
 2023-03-05 23:10:04.522 INFO  - [API] printSystemProp end
 2023-03-05 23:10:22.681 WARN  - [] Client session timed out, have not heard from server in 20011ms for sessionid 0x0
 2023-03-05 23:10:42.803 WARN  - [] Client session timed out, have not heard from server in 20011ms for sessionid 0x0
+2023-03-05 23:10:50.658 INFO  - [] Starting Application using Java 1.8.0_352 on eddy-laptop with PID 11188 (D:\My_Github\Project\Springboot\frame\out\production\classes started by lkoos in D:\My_Github\Project\Springboot\frame)
+2023-03-05 23:10:50.660 DEBUG - [] Running with Spring Boot v2.7.8, Spring v5.3.25
+2023-03-05 23:10:50.660 INFO  - [] The following 1 profile is active: "local"
+2023-03-05 23:10:52.059 INFO  - [] Started Application in 1.775 seconds (JVM running for 2.491)
+2023-03-05 23:10:55.000 INFO  - [API] printSystemProp run
+2023-03-05 23:10:55.002 INFO  - [] 
+2023-03-05 23:10:55.006 INFO  - [API] SystemProp: appName=ssoh's Frame System
+2023-03-05 23:10:55.007 INFO  - [API] SystemProp: serverType=frame
+2023-03-05 23:10:55.007 INFO  - [API] SystemProp: serverId=frame01
+2023-03-05 23:10:55.008 INFO  - [API] SystemProp: serverIp=127.0.0.1
+2023-03-05 23:10:55.008 INFO  - [API] SystemProp: serverPort=8080
+2023-03-05 23:10:55.008 INFO  - [API] SystemProp: version=1.0
+2023-03-05 23:10:55.008 INFO  - [API] SystemProp: saltKey=0123456789012345
+2023-03-05 23:10:55.008 INFO  - [] 
+2023-03-05 23:10:55.008 INFO  - [API] SystemProp: A1=111
+2023-03-05 23:10:55.008 INFO  - [API] SystemProp: A2=sampleText
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: A3=true
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: A4=[192.168.111.1, 192.168.111.2, 192.186.111.3]
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: A5=[192.168.111.1, 192.168.111.2, 192.168.111.3]
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: aGroup=com.example.common.value.SystemProp$AProp$AGroup@727f50ab
+2023-03-05 23:10:55.009 INFO  - [] 
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: B1=133
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: B2=sampleText
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: B3=true
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: B4=[192.168.133.1, 192.168.133.2, 192.168.133.3]
+2023-03-05 23:10:55.009 INFO  - [API] SystemProp: B5=[192.168.133.1, 192.168.133.2, 192.168.133.3]
+2023-03-05 23:10:55.010 INFO  - [API] SystemProp: aGroup=null
+2023-03-05 23:16:02.868 INFO  - [] 
+2023-03-05 23:16:02.868 WARN  - [] Client session timed out, have not heard from server in 311162ms for sessionid 0x0
+2023-03-05 23:16:02.871 INFO  - [API] ServiceProp: C1=211
+2023-03-05 23:16:02.871 INFO  - [API] ServiceProp: C2=sampleText
+2023-03-05 23:16:02.871 INFO  - [API] ServiceProp: C3=true
+2023-03-05 23:16:02.871 INFO  - [API] ServiceProp: C4=[192.168.211.1, 192.168.211.2, 192.186.211.3]
+2023-03-05 23:16:02.871 INFO  - [API] ServiceProp: C5=[192.168.211.1, 192.168.211.2, 192.168.211.3]
+2023-03-05 23:16:02.872 INFO  - [API] ServiceProp: cGroup=com.example.common.value.ServiceProp$CProp$CGroup@62f2f4c9
+2023-03-05 23:16:02.872 INFO  - [] 
+2023-03-05 23:16:02.872 INFO  - [API] ServiceProp: D1=233
+2023-03-05 23:16:02.872 INFO  - [API] ServiceProp: D2=sampleText
+2023-03-05 23:16:02.872 INFO  - [API] ServiceProp: D3=true
+2023-03-05 23:16:02.872 INFO  - [API] ServiceProp: D4=[192.168.233.1, 192.168.233.2, 192.186.233.3]
+2023-03-05 23:16:02.873 INFO  - [API] ServiceProp: D5=[192.168.233.1, 192.168.233.2, 192.168.233.3]
+2023-03-05 23:16:02.873 INFO  - [API] ServiceProp: dGroup=com.example.common.value.ServiceProp$DProp$DGroup@4d9f822c
+2023-03-05 23:16:02.873 INFO  - [API] printSystemProp end
+2023-03-05 23:22:24.047 INFO  - [] Starting Application using Java 1.8.0_352 on eddy-laptop with PID 18044 (D:\My_Github\Project\Springboot\frame\out\production\classes started by lkoos in D:\My_Github\Project\Springboot\frame)
+2023-03-05 23:22:24.048 DEBUG - [] Running with Spring Boot v2.7.8, Spring v5.3.25
+2023-03-05 23:22:24.049 INFO  - [] The following 1 profile is active: "local"
+2023-03-05 23:22:24.896 INFO  - [CONFIG] ################## All bean objects loaded ##################
+2023-03-05 23:22:25.228 INFO  - [] Started Application in 1.481 seconds (JVM running for 2.097)
+2023-03-05 23:22:44.965 WARN  - [] Client session timed out, have not heard from server in 20018ms for sessionid 0x0
+2023-03-05 23:23:05.088 WARN  - [] Client session timed out, have not heard from server in 20010ms for sessionid 0x0

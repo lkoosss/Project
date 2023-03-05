@@ -1,4 +1,4 @@
-package com.example.common.interceptor;
+package com.example.app.lifecycle.interceptor;
 
 import com.example.common.model.ResponseModel;
 import com.google.gson.Gson;
@@ -37,7 +37,7 @@ public class SessionInterceptor implements HandlerInterceptor {
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 
-    public String getClientIP(HttpServletRequest request) {
+    private String getClientIP(HttpServletRequest request) {
         String clientIP = null;
         if (clientIP == null || clientIP.length() == 0 || "unknown".equalsIgnoreCase(clientIP)) {
             clientIP = request.getHeader("Proxy-Client-IP");
