@@ -7,6 +7,8 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 @Data
 public class ResponseModel {
-    private String code;
-    private String message;
+    protected String code;
+    protected String message;
+
+//    protected ResponseCode responseCode;
 }

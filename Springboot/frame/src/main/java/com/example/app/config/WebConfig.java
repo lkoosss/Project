@@ -1,6 +1,6 @@
-package com.example.common.config;
+package com.example.app.config;
 
-import com.example.app.lifecycle.interceptor.SessionInterceptor;
+import com.example.app.lifecycle.interceptor.ApiInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
     //////////// 인터셉터 추가설정 부분 ////////////
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SessionInterceptor())       // Interceptor추가하고
+        registry.addInterceptor(new ApiInterceptor())       // Interceptor추가하고
                 .addPathPatterns("/**")                         // 어느 URI일 때 인터셉터에 넘겨줄지
                 .excludePathPatterns("");                       // 어느 URI는 제외시킬 것인지
     }

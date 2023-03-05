@@ -197,3 +197,37 @@
 2023-03-05 23:22:25.228 INFO  - [] Started Application in 1.481 seconds (JVM running for 2.097)
 2023-03-05 23:22:44.965 WARN  - [] Client session timed out, have not heard from server in 20018ms for sessionid 0x0
 2023-03-05 23:23:05.088 WARN  - [] Client session timed out, have not heard from server in 20010ms for sessionid 0x0
+2023-03-05 23:23:25.200 WARN  - [] Client session timed out, have not heard from server in 20002ms for sessionid 0x0
+2023-03-05 23:24:00.426 WARN  - [] Client session timed out, have not heard from server in 20006ms for sessionid 0x0
+2023-03-05 23:24:20.551 WARN  - [] Client session timed out, have not heard from server in 20015ms for sessionid 0x0
+2023-03-05 23:24:40.675 WARN  - [] Client session timed out, have not heard from server in 20015ms for sessionid 0x0
+2023-03-05 23:25:01.797 WARN  - [] Client session timed out, have not heard from server in 21012ms for sessionid 0x0
+2023-03-05 23:25:21.911 WARN  - [] Client session timed out, have not heard from server in 20006ms for sessionid 0x0
+2023-03-05 23:25:42.033 WARN  - [] Client session timed out, have not heard from server in 20012ms for sessionid 0x0
+2023-03-05 23:26:03.157 WARN  - [] Client session timed out, have not heard from server in 21015ms for sessionid 0x0
+2023-03-05 23:26:23.279 WARN  - [] Client session timed out, have not heard from server in 20013ms for sessionid 0x0
+2023-03-05 23:26:43.399 WARN  - [] Client session timed out, have not heard from server in 20010ms for sessionid 0x0
+2023-03-05 23:27:04.522 WARN  - [] Client session timed out, have not heard from server in 21014ms for sessionid 0x0
+2023-03-05 23:27:24.632 WARN  - [] Client session timed out, have not heard from server in 20002ms for sessionid 0x0
+2023-03-05 23:27:44.654 INFO  - [CONFIG] ######################## Server Destroy ########################
+2023-03-05 23:27:49.402 INFO  - [] Starting Application using Java 1.8.0_352 on eddy-laptop with PID 16424 (D:\My_Github\Project\Springboot\frame\out\production\classes started by lkoos in D:\My_Github\Project\Springboot\frame)
+2023-03-05 23:27:49.403 DEBUG - [] Running with Spring Boot v2.7.8, Spring v5.3.25
+2023-03-05 23:27:49.403 INFO  - [] The following 1 profile is active: "local"
+2023-03-05 23:27:50.221 INFO  - [CONFIG] ################## All bean objects loaded ##################
+2023-03-05 23:27:50.541 INFO  - [] Started Application in 1.452 seconds (JVM running for 2.116)
+2023-03-05 23:27:54.498 INFO  - [CONFIG] ######################## Server Destroy ########################
+2023-03-05 23:28:29.480 INFO  - [] Starting Application using Java 1.8.0_352 on eddy-laptop with PID 900 (D:\My_Github\Project\Springboot\frame\out\production\classes started by lkoos in D:\My_Github\Project\Springboot\frame)
+2023-03-05 23:28:29.481 DEBUG - [] Running with Spring Boot v2.7.8, Spring v5.3.25
+2023-03-05 23:28:29.481 INFO  - [] The following 1 profile is active: "local"
+2023-03-05 23:28:30.314 INFO  - [CONFIG] ################## All bean objects loaded ##################
+2023-03-05 23:28:30.672 INFO  - [] Started Application in 1.508 seconds (JVM running for 2.468)
+2023-03-05 23:28:50.381 WARN  - [] Client session timed out, have not heard from server in 20013ms for sessionid 0x0
+2023-03-05 23:29:10.500 WARN  - [] Client session timed out, have not heard from server in 20010ms for sessionid 0x0
+2023-03-05 23:29:30.613 WARN  - [] Client session timed out, have not heard from server in 20006ms for sessionid 0x0
+2023-03-05 23:30:06.008 WARN  - [] Client session timed out, have not heard from server in 20038ms for sessionid 0x0
+2023-03-05 23:30:26.142 WARN  - [] Client session timed out, have not heard from server in 20004ms for sessionid 0x0
+2023-03-05 23:30:46.266 WARN  - [] Client session timed out, have not heard from server in 20016ms for sessionid 0x0
+2023-03-05 23:31:06.385 WARN  - [] Client session timed out, have not heard from server in 20012ms for sessionid 0x0
+2023-03-05 23:31:27.507 WARN  - [] Client session timed out, have not heard from server in 21014ms for sessionid 0x0
+2023-03-05 23:31:47.622 WARN  - [] Client session timed out, have not heard from server in 20006ms for sessionid 0x0
+2023-03-05 23:31:48.774 INFO  - [CONFIG] ######################## Server Destroy ########################

@@ -1,4 +1,4 @@
-package com.example.common.application;
+package com.example.app;
 
 import com.example.common.value.Constant.SpringConst;
 import org.springframework.boot.SpringApplication;
