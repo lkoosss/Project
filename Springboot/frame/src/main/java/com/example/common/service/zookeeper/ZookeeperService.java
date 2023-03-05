@@ -23,7 +23,7 @@ public class ZookeeperService {
 	private RetryPolicy retryPolicy = new RetryNTimes(maxRetries, sleepMsBetweenRetries);
 
 	// 연결 서버 선택 관련 변수
-	private List<String> serverArrayList = new ArrayList<>(Arrays.asList("192.168.5.151:2181", "192.168.5.152:2181", "192.168.5.153:2181"));
+	private List<String> serverArrayList = new ArrayList<>(Arrays.asList("192.168.0.109:2181", "192.168.0.110:2181", "192.168.0.111:2181"));
 
 	private CuratorFramework client;
 

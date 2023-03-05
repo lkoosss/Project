@@ -34,12 +34,8 @@ public class FileUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
 
     // 암호화, 복호화 관련 변수
+    @Value("${system.saltKey}")
     private static String key;
-
-    @Value("${fileManager.keyValue}")
-    public void setKey(String value) {
-        this.key = value;
-    }
 
     /**
      * <pre>

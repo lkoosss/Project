@@ -1,17 +1,37 @@
-spring.mvc.view.prefix: /WEB-INF/views/
-spring.mvc.view.suffix: .jsp
-
-#JSP수정시 서버 재시작없이 바로 적용될 수 있게 설정
-server.servlet.jsp.init-parameters.development: true
-
-## file Manager Key 설정
-fileManager:
-  keyValue: "0123456789012345"
+######################
+# 공통 Spring 설정 정의
+######################
 
 
-## 외부 설정파일 경로
+
+##### App #####
+app:
+  name: ssoh's Frame System                                                                 # App 이름
+  description: ${app.name} by ${spring.profiles.active:local} environment. yml version 2    # App 설명
+
+##### 외부 설정 파일 #####
 spring:
   config:
     import:
-      - classpath:config/properties/system/system-properties.yml
-      - classpath:config/properties/service/service-properties.yml
+      - classpath:config/properties/system/system-common-properties.yml                             # 공통 System 설정 파일
+      - classpath:config/properties/system/system-${spring.profiles.active:local}-properties.yml    # 환경별 System 설정 파일
+      - classpath:config/properties/service/service-common-properties.yml                           # 공통 Service 설정 파일
+      - classpath:config/properties/service/service-${spring.profiles.active:local}-properties.yml  # 환경별 Service 설정 파일
+
+##### LOGGING #####
+logging:
+  config: classpath:config/logback/logback-${spring.profiles.active:local}.xml
+
+---
+spring.config.activate.on-profile: local
+
+##### Devtools 설정(개발용) #####
+spring:
+  devtools:
+    restart:
+      enabled: true                                                                         # Auto Restart 사용여부
+      pool-interval: 50                                                                     # Classpath 변경에 대한 Polling 주기시간
+      quit-period: 10                                                                       # 재시작이 트리거 되기 전에 클래스 경로를 변경하지 않는 시간
+      additional-paths: src/main/webapp/WEB-INF, src/main/webapp/js                         # Classpath 이외에 변경을 감지할 디렉토리 (root 프로젝트 아래 경로부터 시작)
+    livereload:
+      enabled: true                                                                         # Live reload 사용여부

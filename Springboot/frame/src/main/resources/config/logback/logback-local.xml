@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+    <!--####################################### Property ############################################ -->
+    <springProperty name="LOG_DIR" source="config.logPath" />
+
+
+    <!--####################################### Appender ############################################ -->
+    <!-- Service Log 출력 설정 -->
+    <appender name="SERVICE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 로그레벨 지정 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- 로그출력 형식 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level - [%marker] %msg%n</pattern>
+        </encoder>
+        <!-- 로그파일 저장위치 -->
+        <file>${LOG_DIR}/service.log</file>
+        <!-- 로그백업 설정 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/service/service.%d{yyyy-MM-dd}.log</fileNamePattern>    <!-- 로그백업 파일 저장위치 + 이름 -->
+            <maxHistory>60</maxHistory>                                                         <!-- 로그백업 파일 보관 개수 -->
+        </rollingPolicy>
+    </appender>
+
+    <!-- Service Error Log 출력 설정 -->
+    <appender name="SERVICE_ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20}.%M\(%line\) - [%marker] %msg%n</pattern>
+        </encoder>
+        <file>${LOG_DIR}/service_error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/error/service_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Console Log 출력 설정 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%magenta(%15.15thread)] %highlight(%-5level) %green(%20.20logger{1}.%-15.15M\(%3line\)) [%cyan(%marker)] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--####################################### Logger ############################################ -->
+    <!-- Root Logger -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- Service Logger -->
+    <logger name="com.example" level="DEBUG" additivity="false">
+        <appender-ref ref="SERVICE_LOG" />
+        <appender-ref ref="SERVICE_ERROR_LOG" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <!-- Zookeeper Log -->
+    <logger name="org.apache.zookeeper" level="WARN" additivity="false">
+        <appender-ref ref="SERVICE_LOG" />
+    </logger>
+
+</configuration>

@@ -1,13 +1,25 @@
+/** 미리 정의된 Task 모음 **/
 plugins {
-    id 'org.springframework.boot' version '2.7.0'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'war'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+/** 프로젝트 속성 **/
+group = 'com.example'           // 프로젝트 그룹 ID
+version = '0.0.1'               // Application 버전
+sourceCompatibility = '1.8'     // Source를 컴파일하는 JDK 버전
+
+/** War 빌드 설정 **/
+bootWar {
+    archiveFileName = 'frame.war'		// war 파일 이름
+}
+
+/** Jar 빌드 설정 **/
+bootJar {
+    archiveFileName = 'frame.jar'		// jar 파일 이름
+}
 
 configurations {
     compileOnly {
@@ -15,39 +27,69 @@ configurations {
     }
 }
 
+/** 의존성 라이브러리를 가져올 저장소 **/
 repositories {
     mavenCentral()
 }
 
+/** 의존성 라이브러리 정의 **/
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // Zookeeper Curator Lib
-    implementation group: 'org.apache.curator', name: 'curator-recipes', version: '4.0.1'
-    implementation group: 'org.apache.curator', name: 'curator-x-async', version: '4.0.1'
-    implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.8.0'
-
-    // JSP Lib
+    ///// JSP Lib /////
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'javax.servlet:jstl'
 
-    // Common IO Lib
-    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    ///// Configuration Properties Lib /////
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
-    // tar.gz 압축, 압축해제 Lib
-    implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
+    ///// Lombok Lib /////
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-    // Object <> JSON 변환 Lib
+    ///// AOP Lib /////
+    implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.3'
+
+    ///// 범용 유틸리티 Lib /////
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    ///// Common IO Lib /////
+    implementation 'commons-io:commons-io:2.11.0'
+
+    ///// tar.gz 압축, 압축해제 Lib /////
+    implementation 'org.apache.commons:commons-compress:1.21'
+
+    ///// Ehcache Lib /////
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.ehcache:ehcache:3.10.0'
+
+    ///// Object <> JSON 변환 Lib /////
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
 
+    ///// Zookeeper Lib /////
+    implementation 'org.apache.curator:curator-recipes:4.0.1'
+    implementation ('org.apache.curator:curator-x-async:4.0.1') {
+        exclude group: 'org.apache.zookeeper', module: 'zookeeper'
+    }
+
+    /**********************************/
+    /***** Local 환경전용 라이브러리 *****/
+    /**********************************/
+
+    ///// Devtools Lib /////
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile){
+    options.encoding = 'UTF-8'
 }
+
+/** Test Build 시  **/
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
