@@ -22,11 +22,7 @@ public class ApiService {
     ServiceProp serviceProp;
 
     public void printSystemProp() {
-        this.printField(this.systemProp, this.systemProp.baseProp);
-        this.printField(this.systemProp, this.systemProp.aProp);
-        this.printField(this.systemProp, this.systemProp.bProp);
-        this.printField(this.serviceProp, this.serviceProp.cProp);
-        this.printField(this.serviceProp, this.serviceProp.dProp);
+        this.printField(this.serviceProp, this.serviceProp.baseProp);
     }
 
     private void printField(Object parentObj, Object childObj) {

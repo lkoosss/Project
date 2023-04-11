@@ -4,16 +4,14 @@
 
 
 
-##### D 설정 #####
+##### Zookeeper 설정 #####
 service:
-  DProp:
-    D1: 233
-    D2: sampleText
-    D3: true
-    D4: 192.168.233.1, 192.168.233.2, 192.186.233.3
-    D5:
-      - 192.168.233.1
-      - 192.168.233.2
-      - 192.168.233.3
-    DGroup:
-      D6: 233
+  zookeeperProp:
+    serviceEnable: true     # Zookeeper 사용여부 (true : 사용 | false : 미사용)
+    retryCnt: 3             # Zookeeper 재시도 횟수
+    retryInterval: 100      # Zookeeper 재시도 간격 (ms)
+    lockWaitTime: 5         # Lock 대기시간 (sec)
+    serverList:             # Zookeeper 서버목록
+      - 192.168.0.109:2181
+      - 192.168.0.110:2181
+      - 192.168.0.111:2181

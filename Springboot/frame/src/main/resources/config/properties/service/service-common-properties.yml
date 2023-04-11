@@ -4,16 +4,14 @@
 
 
 
-##### C 설정 #####
+##### Base 설정 #####
 service:
-  CProp:
-    C1: 211
-    C2: sampleText
-    C3: true
-    C4: 192.168.211.1, 192.168.211.2, 192.186.211.3
-    C5:
-      - 192.168.211.1
-      - 192.168.211.2
-      - 192.168.211.3
-    CGroup:
-      C6: 211
+  baseProp:
+    appName: ${app.name}                                  # App 이름
+    osType: Linux                                         # OS 타입
+    serverType: ${config.serverType:frame}                # 서버 타입 (각각의 서비스 타임, properties.service에서 yml선택
+    serverId: ${config.serverId:frame01}                  # 서버 ID
+    serverIp: ${serverIp:127.0.0.1}                       # 서버 IP
+    serverPort: ${config.serverPort:8080}                 # 서버 서비스 포트
+    version: ${config.serverVersion:1.0}                  # 서버 버전
+    saltKey: "0123456789012345"

@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
 <configuration>
-    <!--####################################### Property ############################################ -->
-    <springProperty name="LOG_DIR" source="config.logPath" />
+    <!--===================================================================================-->
+    <!--|                                     Property                                    |-->
+    <!--===================================================================================-->
+    <springProperty name="LOG_DIR" source="system.logProp.path" />
 
 
-    <!--####################################### Appender ############################################ -->
-    <!-- Service Log 출력 설정 -->
+    <!--===================================================================================-->
+    <!--|                                     Appender                                    |-->
+    <!--===================================================================================-->
+    <!--|   Service Log 출력 설정   |-->
     <appender name="SERVICE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 로그레벨 지정 -->
+        <!-- 로그레벨 지정 (ex> INFO 레벨 이상 기록함) -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
+            <level>INFO</level>
         </filter>
         <!-- 로그출력 형식 -->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level - [%marker] %msg%n</pattern>
         </encoder>
-        <!-- 로그파일 저장위치 -->
+        <!-- 실시간 로그파일 경로 (파일경로) -->
         <file>${LOG_DIR}/service.log</file>
-        <!-- 로그백업 설정 -->
+        <!-- 로그파일 백업 규칙 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/service/service.%d{yyyy-MM-dd}.log</fileNamePattern>    <!-- 로그백업 파일 저장위치 + 이름 -->
-            <maxHistory>60</maxHistory>                                                         <!-- 로그백업 파일 보관 개수 -->
+            <!-- 백업 로그파일 경로 (파일경로) -->
+            <fileNamePattern>${LOG_DIR}/service/service.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 백업 로그파일 보관개수 -->
+            <maxHistory>60</maxHistory>
         </rollingPolicy>
     </appender>
 
-    <!-- Service Error Log 출력 설정 -->
+    <!--|   Service Error Log 출력 설정   |-->
     <appender name="SERVICE_ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
@@ -40,31 +46,33 @@
         </rollingPolicy>
     </appender>
 
-    <!-- Console Log 출력 설정 -->
+    <!--|   Console Log 출력 설정   |-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%magenta(%15.15thread)] %highlight(%-5level) %green(%20.20logger{1}.%-15.15M\(%3line\)) [%cyan(%marker)] %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%magenta(%15.15thread)] %highlight(%-5level) %green(%20.20logger{1}.%-15.15M\(%3line\)) [%cyan(%marker)] %msg%n</pattern>
         </encoder>
     </appender>
 
 
-    <!--####################################### Logger ############################################ -->
-    <!-- Root Logger -->
+    <!--===================================================================================-->
+    <!--|                                      Logger                                     |-->
+    <!--===================================================================================-->
+    <!--|   Root Logger   |-->
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
 
-    <!-- Service Logger -->
+    <!--|   Service Logger   |-->
     <logger name="com.example" level="DEBUG" additivity="false">
         <appender-ref ref="SERVICE_LOG" />
         <appender-ref ref="SERVICE_ERROR_LOG" />
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <!-- Zookeeper Log -->
+    <!--|   Zookeeper Logger   |-->
     <logger name="org.apache.zookeeper" level="WARN" additivity="false">
         <appender-ref ref="SERVICE_LOG" />
     </logger>

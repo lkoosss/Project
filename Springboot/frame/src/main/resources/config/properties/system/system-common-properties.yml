@@ -8,22 +8,10 @@
 system:
   baseProp:
     appName: ${app.name}                                  # App 이름
+    osType: Linux                                         # OS 타입
     serverType: ${config.serverType:frame}                # 서버 타입 (각각의 서비스 타임, properties.service에서 yml선택
     serverId: ${config.serverId:frame01}                  # 서버 ID
     serverIp: ${serverIp:127.0.0.1}                       # 서버 IP
     serverPort: ${config.serverPort:8080}                 # 서버 서비스 포트
     version: ${config.serverVersion:1.0}                  # 서버 버전
     saltKey: "0123456789012345"
-
-##### A 설정 #####
-  AProp:
-    A1: 111
-    A2: sampleText
-    A3: true
-    A4: 192.168.111.1, 192.168.111.2, 192.186.111.3
-    A5:
-      - 192.168.111.1
-      - 192.168.111.2
-      - 192.168.111.3
-    AGroup:
-      A6: 111

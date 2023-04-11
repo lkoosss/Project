@@ -13,42 +13,31 @@ import java.util.List;
 @ConfigurationProperties(prefix = "service")
 public class ServiceProp {
 
-    /** A 설정 **/
-    public CProp cProp;
+    /** Base 설정 **/
+    public BaseProp baseProp;
 
-    /** B 설정 **/
-    public DProp dProp;
+    /** Base 설정 **/
+    public ZookeeperProp zookeeperProp;
 
 
-    /** C 설정 **/
+    /** Base 설정 **/
     @Getter @Setter
-    public static class CProp {
-        public int C1;
-        public String C2;
-        public boolean C3;
-        public List<String> C4;
-        public List<String> C5;
-        public CGroup cGroup;
-
-        @Getter @Setter
-        public static class CGroup {
-            public int C6;
-        }
+    public static class BaseProp {
+        public String appName;      // App 이름
+        public String serverType;   // 서버 타입
+        public String serverId;     // 서버 ID
+        public String serverIp;     // 서버 IP
+        public String serverPort;   // 서버 Port
+        public String version;      // 서버 Version
+        public String saltKey;      // 서버 Salt Key
     }
 
-    /** D 설정 **/
     @Getter @Setter
-    public static class DProp {
-        public int D1;
-        public String D2;
-        public boolean D3;
-        public List<String> D4;
-        public List<String> D5;
-        public DGroup dGroup;
-
-        @Getter @Setter
-        public static class DGroup {
-            public int D6;
-        }
+    public static class ZookeeperProp {
+        public boolean serviceEnable;   // Zookeeper 사용여부 (true : 사용 | false : 미사용)
+        public int retryCnt;            // Zookeeper 재시도 횟수
+        public int retryInterval;       // Zookeeper 재시도 간격 (ms)
+        public int lockWaitTime;        // Lock 대기시간 (sec)
+        public List<String> serverList; // Zookeeper 서버목록
     }
 }
