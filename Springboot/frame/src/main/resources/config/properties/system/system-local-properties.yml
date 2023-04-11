@@ -4,7 +4,7 @@
 
 
 
-##### Zookeeper 설정 #####
+##### log 설정 #####
 system:
   logProp:
     path: ${config.log.path:/home/ssoh/logs}/${service.baseProp.serverId}
