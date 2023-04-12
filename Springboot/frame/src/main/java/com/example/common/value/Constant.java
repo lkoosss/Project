@@ -22,5 +22,6 @@ public class Constant {
     public static class LogMarker {
         public static final Marker config       = MarkerFactory.getMarker("CONFIG");
         public static final Marker api          = MarkerFactory.getMarker("API");
+        public static final Marker zookeeper    = MarkerFactory.getMarker("ZOOKEEPER");
     }
 }
