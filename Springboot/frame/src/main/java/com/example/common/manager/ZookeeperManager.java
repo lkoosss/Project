@@ -32,9 +32,9 @@ public class ZookeeperManager {
     |   클래스 귀속 변수   |
      ------------------*/
     private CuratorFramework client;								// Zookeeper client
+    HashMap<String, TreeCache> treeCacheHashMap;					// Znode Watcher Map
     private ConnectionStateListener connectionEvent;				// connection Event
     private CuratorListener curatorEvent;							// curator Event
-    HashMap<String, TreeCache> treeCacheHashMap;					// Znode Watcher Map
     private List<Consumer<ConnectionState>> connectionEventList;	// Connection Event목록
 
 
@@ -60,10 +60,28 @@ public class ZookeeperManager {
      * </pre>
      */
     public ZookeeperManager() {
+        /*-------------------
+        |   ServiceProp 부분  |
+         -------------------*/
         ServiceProp serviceProp = ContextManager.getBean("serviceProp");
-        this.zookeeperProp = serviceProp.zookeeperProp;
-        this.treeCacheHashMap = new HashMap<>();
-        this.connectionEventList = new ArrayList<>();
+        this.zookeeperProp          = serviceProp.zookeeperProp;
+        this.treeCacheHashMap       = new HashMap<>();
+        this.connectionEventList    = new ArrayList<>();
+        /*------------------
+        |   클래스 귀속 변수   |
+         ------------------*/
+        // Connection Event
+        this.connectionEvent        = (cli, newState) -> {
+            log.info(LogMarker.config, "connectionState: {}", newState);
+            // Connection 추가 이벤트
+            for (int i = 0; i < this.connectionEventList.size(); i++) {
+                this.connectionEventList.get(i).accept(newState);
+            }
+        };
+        // Curator Event
+        this.curatorEvent           = (cli, event) -> {
+            log.info(LogMarker.config, "curator: {}", cli.getState());
+        };
     }
 
     public void init() {
@@ -75,13 +93,19 @@ public class ZookeeperManager {
             return;
         }
         if (!CollectionUtils.isEmpty(this.zookeeperProp.serverList)) {
+            // Server 랜덤섞기
             Collections.shuffle(this.zookeeperProp.serverList);
-            String serverList = this.zookeeperProp.serverList.toString().replace("[", "").replace("]", "").replace(" ", "");
-            // Retry 정책
+            // Server 리스트를 문자열로 변환
+            String serverList = this.zookeeperProp.serverList.toString().replaceAll("\\[|\\]| ", "");
+            // Server 재시도 정책 설정
             RetryPolicy retryPolicy = new RetryNTimes(this.zookeeperProp.retryCnt, this.zookeeperProp.retryInterval);
-            // Client 생성
+            // Zookeeper Client 생성
             this.client = CuratorFrameworkFactory.newClient(serverList, retryPolicy);
-            // Client 시작
+            // Zookeeper Connection Event 등록
+            this.client.getConnectionStateListenable().addListener(this.connectionEvent);
+            // Zookeeper Curator Event 등록
+            this.client.getCuratorListenable().addListener(this.curatorEvent);
+            // Zookeeper Client 시작
             this.client.start();
         }
         log.info(LogMarker.config, "- retryCnt: {}", this.zookeeperProp.retryCnt);
@@ -89,20 +113,5 @@ public class ZookeeperManager {
         log.info(LogMarker.config, "- lockWaitTime: {}", this.zookeeperProp.lockWaitTime);
         log.info(LogMarker.config, "- serverList: {}", this.zookeeperProp.serverList);
         log.info(LogMarker.config, "- clientState: {}", this.client.getState());
-
-        this.connectionEvent = (cli, newState) -> {
-            log.info(LogMarker.config, "connectionState: {}", newState);
-
-            // Connection 추가 이벤트
-            for (int i = 0; i < this.connectionEventList.size(); i++) {
-                this.connectionEventList.get(i).accept(newState);
-            }
-        };
-        this.client.getConnectionStateListenable().addListener(this.connectionEvent);
-
-        // Curator Event
-        this.curatorEvent = (cli, event) -> {
-            log.info(LogMarker.config, "curator: {}", cli.getState());
-        };
     }
 }
