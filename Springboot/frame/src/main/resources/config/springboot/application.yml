@@ -34,4 +34,4 @@ spring:
       quit-period: 10                                                                       # 재시작이 트리거 되기 전에 클래스 경로를 변경하지 않는 시간
       additional-paths: src/main/webapp/WEB-INF, src/main/webapp/js                         # Classpath 이외에 변경을 감지할 디렉토리 (root 프로젝트 아래 경로부터 시작)
     livereload:
-      enabled: true                                                                         # Live reload 사용여부
+      enabled: false                                                                         # Live reload 사용여부
