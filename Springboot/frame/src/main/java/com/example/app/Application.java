@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
+/** Application **/
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.example.app", "com.example.common", "com.example.sample", "com.example.web"})
 public class Application extends SpringBootServletInitializer {
@@ -25,6 +26,7 @@ public class Application extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         SetupHelper.initSystemProperty();
+        setRegisterErrorPageFilter(false);
         return application.sources(Application.class);
     }
 
