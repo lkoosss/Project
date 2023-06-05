@@ -4,10 +4,8 @@ import com.example.app.lifecycle.filter.ApiFilter;
 import com.example.app.lifecycle.interceptor.ApiInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.*;
 
 import javax.servlet.Filter;
 import java.util.Arrays;
@@ -30,6 +28,19 @@ public class MvcConfig implements WebMvcConfigurer {
         int order = 1;
         List<String> urlPattern = Arrays.asList("/*");
         return this.createFilterRegistration(new ApiFilter(), enable, order, urlPattern);
+    }
+
+    /**
+     * <pre>
+     *  configureViewResolvers
+     *  - ViewResolver 설정
+     * </pre>
+     *
+     * @param registry
+     */
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.jsp("/WEB-INF/views", ".jsp");
     }
 
     /**

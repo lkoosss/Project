@@ -74,6 +74,10 @@ dependencies {
         exclude group: 'org.apache.zookeeper', module: 'zookeeper'
     }
 
+    ///// Tus Protocol /////
+    implementation 'me.desair.tus:tus-java-server:1.0.0-2.0'
+
+
     /**********************************/
     /***** Local 환경전용 라이브러리 *****/
     /**********************************/

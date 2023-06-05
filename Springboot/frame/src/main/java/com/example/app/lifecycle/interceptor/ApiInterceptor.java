@@ -1,19 +1,22 @@
 package com.example.app.lifecycle.interceptor;
 
 import com.example.common.model.ResponseModel;
+import com.example.common.value.Constant;
+import com.example.common.value.Constant.LogMarker;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class ApiInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean result = true;
-        System.out.println(this.getClientIP(request));
-        System.out.println(request.getRequestURI());
+        log.info(LogMarker.filter, "request URI: {}", request.getRequestURI());
 
         if (result == false) {
             ResponseModel responseModel = new ResponseModel();

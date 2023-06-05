@@ -51,5 +51,7 @@ public class Constant {
         public static final Marker config       = MarkerFactory.getMarker("CONFIG");
         public static final Marker api          = MarkerFactory.getMarker("API");
         public static final Marker zookeeper    = MarkerFactory.getMarker("ZOOKEEPER");
+        public static final Marker filter       = MarkerFactory.getMarker("FILTER");
+        public static final Marker tus          = MarkerFactory.getMarker("TUS");
     }
 }

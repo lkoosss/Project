@@ -37,7 +37,7 @@ public class AppLifeCycle {
         this.baseProp = serviceProp.baseProp;
         this.zookeeperProp = serviceProp.zookeeperProp;
 
-        ZookeeperManager.getInstance().init();
+//        ZookeeperManager.getInstance().init();
     }
 
     /**
