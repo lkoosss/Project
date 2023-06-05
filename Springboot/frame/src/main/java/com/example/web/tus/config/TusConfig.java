@@ -20,7 +20,7 @@ public class TusConfig {
     }
 
     @Bean
-    public TusFileUploadService tuis() {
+    public TusFileUploadService tus() {
         return new TusFileUploadService().withStoragePath(tusStoragePath)
                                             .withDownloadFeature()
                                             .withUploadExpirationPeriod(tusExpirationPeriod)
