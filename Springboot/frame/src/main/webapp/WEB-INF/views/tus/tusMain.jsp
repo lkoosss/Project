@@ -12,13 +12,18 @@
 
     <!--  CSS 적용  -->
     <link type="text/css" rel="stylesheet" href="/css/views/tus/tusMain.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!--  Script  -->
     <script type="text/javascript" src="/js/lib/jquery.min_1.12.4.js" defer></script>
-    <script type="text/javascript" src="/js/lib/tus/tus.min.js" defer></script>
+    <script type="text/javascript" src="/js/lib/secret/md5.min.js"></script>
+    <script type="text/javascript" src="/js/lib/tus/tus.js" defer></script>
     <script type="text/javascript" src="/js/views/tus/tusMain.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js" integrity="sha512-3sGbaDyhjGb+yxqvJKi/gl5zL4J7P5Yh4GXzq+E9puzlmVkIctjf4yP6LfijOUvtoBI3p9pLKia9crHsgYDTUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/lib-typedarrays.min.js" integrity="sha512-IYLn1Vhe6FU/6vVifkxxGV8exi8kFXjrIVuNuYlGrQQ/gv3+fa/fPFY5Nh1QCB+EdUrY+QRVocT9jtxPzlkjWQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 <body>
     <h1>TUS Test</h1>

@@ -1,5 +1,6 @@
 var tusMain = {
     convertedFiles: [],
+    test: undefined,
 }
 function init() {
     addEvent();
@@ -9,7 +10,6 @@ function addEvent() {
 
     // 다운로드 버튼 클릭 이벤트
     $("#downloadBtn").click( () => {
-        console.log("downloadBtn Click");
         $.ajax({
             url: "/tusMain/download",
             type: "POST",
@@ -31,15 +31,14 @@ function addEvent() {
             ]
         })
 
-        tusMain.convertedFiles.map( (index, key) => {
-            const file = index.file;
+        tusMain.convertedFiles.map( (item, key) => {
+            const file = item.file;
             key ++;
-            const chunkSize = parseInt(104857600, 10);
+            const chunkSize = parseInt(10485760, 10);
 
             var uploadFileTag = `    <div class="file-data" key=${key}>
-                                                <div>파일명: ${index.file.name}</div>
-                                                <div>파일 타입: ${index.file.type}</div>
-                                                <div>파일 크기: ${index.file.size} byte</div>
+                                                <div>파일명: ${item.file.name}</div>
+                                                <div>파일 크기: ${item.file.size} byte</div>
                                                 <div class="flex-grow-1">
                                                   <div class="progress pr_${key}">
                                                     <div class="progress-bar_${key} progress-bar-striped bg-success" role="progressbar"></div>
@@ -49,14 +48,24 @@ function addEvent() {
                                               </div>`;
             $('#dataList').append(uploadFileTag);
 
+            const fileReader = new FileReader();
+            fileReader.onload = (e) => {
+                console.log(e);
+                const wordArray = CryptoJS.lib.WordArray.create(e.target.result)
+                console.log(e.target.result);
+                const md5Checksum = CryptoJS.MD5(wordArray);
+                console.log(md5Checksum.toString());
+            }
+            fileReader.readAsArrayBuffer(file);
+
             var uploadConfig = {
                 endpoint : "/tusMain/upload",
                 retryDelays: [0, 1000, 3000, 5000],
                 metadata: {
                     filename: file.name,
-                    filetype: file.type
+                    filetype: file.type,
                 },
-                chunkSize,
+                chunkSize: chunkSize,
                 onProgress: (bytesUploaded, bytesTotal) => {
                     const percentage = ( (bytesUploaded / bytesTotal) * 100 ).toFixed(2);
                     $('.progress-bar_' + key).css('width', percentage + '%');

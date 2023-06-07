@@ -1,6 +1,7 @@
 package com.example.web.tus.config;
 
 import me.desair.tus.server.TusFileUploadService;
+import me.desair.tus.server.checksum.ChecksumExtension;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +13,7 @@ public class TusConfig {
 
     String tusStoragePath = "/work/temp";
 
-    Long tusExpirationPeriod = 120000L;
+    Long tusExpirationPeriod = 12000L;
 
     @PreDestroy
     public void Destroy() throws IOException {

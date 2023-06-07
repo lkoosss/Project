@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @Slf4j
@@ -36,13 +37,20 @@ public class TusController {
         return tusService.fileDownload();
     }
 
-    @RequestMapping(value = {"/tusMain/upload", "/tusMain/upload/**"}, method = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PATCH})
-    public ResponseEntity fileUpload(HttpServletRequest req, HttpServletResponse res) {
+    @RequestMapping(value = {"/tusMain/upload", "/tusMain/upload/**"}, method = {RequestMethod.GET, RequestMethod.POST,RequestMethod.PATCH, RequestMethod.HEAD, RequestMethod.OPTIONS})
+    public ResponseEntity fileUpload(HttpServletRequest req, HttpServletResponse res) throws IOException {
         tusService.fileUpload(req, res);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "*");
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).build();
+    }
+
+    @RequestMapping(value = "/tusMain/checksum", method = {RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public String checksum(HttpServletRequest req) {
+
+        return tusService.checksum();
     }
 }
