@@ -1,6 +1,7 @@
 var tusMain = {
     convertedFiles: [],
     test: undefined,
+    uploaded
 }
 function init() {
     addEvent();
@@ -48,15 +49,15 @@ function addEvent() {
                                               </div>`;
             $('#dataList').append(uploadFileTag);
 
-            const fileReader = new FileReader();
-            fileReader.onload = (e) => {
-                console.log(e);
-                const wordArray = CryptoJS.lib.WordArray.create(e.target.result)
-                console.log(e.target.result);
-                const md5Checksum = CryptoJS.MD5(wordArray);
-                console.log(md5Checksum.toString());
-            }
-            fileReader.readAsArrayBuffer(file);
+            // const fileReader = new FileReader();
+            // fileReader.onload = (e) => {
+            //     console.log(e);
+            //     const wordArray = CryptoJS.lib.WordArray.create(e.target.result)
+            //     console.log(e.target.result);
+            //     const md5Checksum = CryptoJS.MD5(wordArray);
+            //     console.log(md5Checksum.toString());
+            // }
+            // fileReader.readAsArrayBuffer(file);
 
             var uploadConfig = {
                 endpoint : "/tusMain/upload",
@@ -66,6 +67,21 @@ function addEvent() {
                     filetype: file.type,
                 },
                 chunkSize: chunkSize,
+                // headers:
+                //   {"Upload-Checksum": 'md5 iwwhwffrgrehe'},
+                onBeforeRequest: (req) => {
+                    console.log(req);
+                    if (req._method === "PATCH") {
+                        var xhr = req.getUnderlyingObject();
+                        // console.log(req._headers.Upload-Offset)
+                        console.log("it PATCH")
+                        var header = req._headers;
+                        console.log(header)
+                        const chunkBlob = upload.file
+                        const fileReader = new FileReader();
+                    }
+
+                },
                 onProgress: (bytesUploaded, bytesTotal) => {
                     const percentage = ( (bytesUploaded / bytesTotal) * 100 ).toFixed(2);
                     $('.progress-bar_' + key).css('width', percentage + '%');

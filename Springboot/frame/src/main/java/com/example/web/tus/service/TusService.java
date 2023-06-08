@@ -68,7 +68,7 @@ public class TusService {
 
     public String checksum() {
         String value = "";
-        String filePath = "/work/temp/50_GB_Sample";
+        String filePath = "/work/temp/45_MB.mp4";
         File file = new File(filePath);
         try {
             FileInputStream fis = new FileInputStream(file);
