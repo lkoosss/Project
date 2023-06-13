@@ -26,5 +26,6 @@ public class TusConfig {
                                             .withDownloadFeature()
                                             .withUploadExpirationPeriod(tusExpirationPeriod)
                                             .withUploadURI("/tusMain/upload");
+//                                            .disableTusExtension("checksum");
     }
 }

@@ -2,7 +2,6 @@ package com.example.web.tus.controller;
 
 import com.example.web.tus.service.TusService;
 import lombok.extern.slf4j.Slf4j;
-import me.desair.tus.server.TusFileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class TusController {
         return tusService.fileDownload();
     }
 
-    @RequestMapping(value = {"/tusMain/upload", "/tusMain/upload/**"}, method = {RequestMethod.GET, RequestMethod.POST,RequestMethod.PATCH, RequestMethod.HEAD, RequestMethod.OPTIONS})
+    @RequestMapping(value = {"/tusMain/upload", "/tusMain/upload/**"}, method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.HEAD, RequestMethod.OPTIONS})
     public ResponseEntity fileUpload(HttpServletRequest req, HttpServletResponse res) throws IOException {
         tusService.fileUpload(req, res);
 

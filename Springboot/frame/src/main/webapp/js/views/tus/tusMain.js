@@ -1,7 +1,8 @@
 var tusMain = {
     convertedFiles: [],
     test: undefined,
-    uploaded
+    tus: undefined,
+    checksum: undefined
 }
 function init() {
     addEvent();
@@ -35,7 +36,8 @@ function addEvent() {
         tusMain.convertedFiles.map( (item, key) => {
             const file = item.file;
             key ++;
-            const chunkSize = parseInt(10485760, 10);
+            const chunkSize = parseInt(1048576, 10);
+            // const chunkSize = parseInt(10, 10);
 
             var uploadFileTag = `    <div class="file-data" key=${key}>
                                                 <div>파일명: ${item.file.name}</div>
@@ -49,15 +51,6 @@ function addEvent() {
                                               </div>`;
             $('#dataList').append(uploadFileTag);
 
-            // const fileReader = new FileReader();
-            // fileReader.onload = (e) => {
-            //     console.log(e);
-            //     const wordArray = CryptoJS.lib.WordArray.create(e.target.result)
-            //     console.log(e.target.result);
-            //     const md5Checksum = CryptoJS.MD5(wordArray);
-            //     console.log(md5Checksum.toString());
-            // }
-            // fileReader.readAsArrayBuffer(file);
 
             var uploadConfig = {
                 endpoint : "/tusMain/upload",
@@ -67,18 +60,28 @@ function addEvent() {
                     filetype: file.type,
                 },
                 chunkSize: chunkSize,
-                // headers:
-                //   {"Upload-Checksum": 'md5 iwwhwffrgrehe'},
                 onBeforeRequest: (req) => {
-                    console.log(req);
                     if (req._method === "PATCH") {
                         var xhr = req.getUnderlyingObject();
-                        // console.log(req._headers.Upload-Offset)
-                        console.log("it PATCH")
                         var header = req._headers;
-                        console.log(header)
-                        const chunkBlob = upload.file
-                        const fileReader = new FileReader();
+
+                        $.each(req._headers, (key, val) => {
+                            if (key == 'Upload-Offset') {
+                                const fileReader = new FileReader();
+                                fileReader.onload = (e) => {
+                                    const wordArray = CryptoJS.lib.WordArray.create(e.target.result)
+                                    const hash = CryptoJS.SHA1(wordArray);
+                                    tusMain.checksum = hash.toString(CryptoJS.enc.Base64);
+                                    console.log('checksum toString', tusMain.checksum);
+                                };
+                                console.log(req);
+                                console.log(header.Upload-Offset)
+                                fileReader.readAsArrayBuffer(file);
+                                // req.setHeader('Upload-Checksum', `sha1 ${tusMain.checksum}`);
+                                req.setHeader('Upload-Checksum', `sha1 `);
+
+                            }
+                        })
                     }
 
                 },
