@@ -26,7 +26,7 @@ public class TusController {
 
 
     @GetMapping("/tusMain")
-    public ModelAndView tus(HttpServletRequest req) {
+    public ModelAndView tusPage(HttpServletRequest req) {
         return new ModelAndView("/tus/tusMain");
     }
 
@@ -36,7 +36,7 @@ public class TusController {
         return tusService.fileDownload();
     }
 
-    @RequestMapping(value = {"/tusMain/upload", "/tusMain/upload/**"}, method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.HEAD, RequestMethod.OPTIONS})
+    @RequestMapping(value = {"/tusMain/upload", "/tusMain/upload/**"}, method = {RequestMethod.POST, RequestMethod.PATCH, RequestMethod.HEAD})
     public ResponseEntity fileUpload(HttpServletRequest req, HttpServletResponse res) throws IOException {
         tusService.fileUpload(req, res);
 
@@ -44,12 +44,5 @@ public class TusController {
         headers.set(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "*");
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).build();
-    }
-
-    @RequestMapping(value = "/tusMain/checksum", method = {RequestMethod.POST, RequestMethod.GET})
-    @ResponseBody
-    public String checksum(HttpServletRequest req) {
-
-        return tusService.checksum();
     }
 }

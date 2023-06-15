@@ -1,7 +1,6 @@
 package com.example.web.tus.config;
 
 import me.desair.tus.server.TusFileUploadService;
-import me.desair.tus.server.checksum.ChecksumExtension;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,6 +25,5 @@ public class TusConfig {
                                             .withDownloadFeature()
                                             .withUploadExpirationPeriod(tusExpirationPeriod)
                                             .withUploadURI("/tusMain/upload");
-//                                            .disableTusExtension("checksum");
     }
 }

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ssoh
-  Date: 23. 6. 5.
-  Time: 오후 2:43
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,12 +10,9 @@
 
     <!--  Script  -->
     <script type="text/javascript" src="/js/lib/jquery.min_1.12.4.js" defer></script>
-    <script type="text/javascript" src="/js/lib/secret/md5.min.js"></script>
-    <script type="text/javascript" src="/js/lib/tus/tus.js" defer></script>
+    <script type="text/javascript" src="/js/lib/secret/crypto-js.min.js"></script>
+    <script type="text/javascript" src="/js/lib/tus/tus.min.js" defer></script>
     <script type="text/javascript" src="/js/views/tus/tusMain.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js" integrity="sha512-3sGbaDyhjGb+yxqvJKi/gl5zL4J7P5Yh4GXzq+E9puzlmVkIctjf4yP6LfijOUvtoBI3p9pLKia9crHsgYDTUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/lib-typedarrays.min.js" integrity="sha512-IYLn1Vhe6FU/6vVifkxxGV8exi8kFXjrIVuNuYlGrQQ/gv3+fa/fPFY5Nh1QCB+EdUrY+QRVocT9jtxPzlkjWQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </head>
 <body>
@@ -30,6 +20,7 @@
     <div class="eddy-div">
         <button id="downloadBtn">다운로드</button>
         <button id="uploadBtn">업로드</button>
+        <button id="pauseBtn">일시정지</button>
         <input type="file" id="fileInput" multiple>
         <div id="dataList">
 
