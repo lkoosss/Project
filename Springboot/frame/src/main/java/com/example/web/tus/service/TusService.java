@@ -1,25 +1,21 @@
 package com.example.web.tus.service;
 
+import com.example.common.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.desair.tus.server.TusFileUploadService;
 import me.desair.tus.server.exception.TusException;
 import me.desair.tus.server.upload.UploadInfo;
 import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.apache.tomcat.util.file.ConfigurationSource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -31,22 +27,18 @@ public class TusService {
     private final TusFileUploadService tusFileUploadService;
 
 
-    public ResponseEntity<Object> fileDownload() {
-        String pathString = "/work/temp/97_MB.mp4";
+    public void fileDownload(HttpServletRequest req, HttpServletResponse res) {
+        Path filePath = Paths.get("/home/ssoh/Sample/CentOS-7-x86_64-Everything-2003.iso");
 
         try {
-            Path filePath = Paths.get(pathString);
-            Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+            File file = filePath.toFile();
+            byte[] fileArray = FileUtil.getAllBytes(filePath);
 
-            File file = new File(pathString);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());
-
-            return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<Object >(null, HttpStatus.CONFLICT);
+            throw new RuntimeException(e);
         }
+
     }
 
     public void fileUpload(HttpServletRequest req, HttpServletResponse res) throws IOException {

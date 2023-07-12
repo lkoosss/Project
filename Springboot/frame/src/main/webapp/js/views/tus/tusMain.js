@@ -34,7 +34,7 @@ function addEvent() {
 
         tusMain.convertedFiles.map( (element, idx) => {
             idx++;
-            const chunkSize = parseInt(1048576, 10);
+            const chunkSize = parseInt(10485760, 10);
 
             var fileInfoHtml = `    <div class="file-data" key=${idx}>
                                                 <div>파일명: ${element.file.name}</div>

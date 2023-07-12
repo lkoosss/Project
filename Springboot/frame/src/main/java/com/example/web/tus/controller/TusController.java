@@ -32,8 +32,8 @@ public class TusController {
 
     @RequestMapping(value = "/tusMain/download", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public ResponseEntity<Object> fileDownload(HttpServletRequest req) {
-        return tusService.fileDownload();
+    public void fileDownload(HttpServletRequest req, HttpServletResponse res) {
+        tusService.fileDownload(req, res);
     }
 
     @RequestMapping(value = {"/tusMain/upload", "/tusMain/upload/**"}, method = {RequestMethod.POST, RequestMethod.PATCH, RequestMethod.HEAD})

@@ -22,8 +22,8 @@ public class Schedule {
 
     @Scheduled(cron = "0 * * * * *")
     public void delExpireUploadFile() {
-        log.info(LogMarker.schedule, "delExpireUploadFile start");
+        log.debug(LogMarker.schedule, "delExpireUploadFile start");
         this.scheduleService.delExpireUploadFile();
-        log.info(LogMarker.schedule, "delExpireUploadFile end");
+        log.debug(LogMarker.schedule, "delExpireUploadFile end");
     }
 }

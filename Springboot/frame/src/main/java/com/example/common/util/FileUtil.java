@@ -37,6 +37,38 @@ public class FileUtil {
     @Value("${system.saltKey}")
     private static String key;
 
+    public static byte[] getAllBytes(Path sourcePath) {
+        byte[] byteArray = null;
+
+        InputStream inputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        byte[] buffer = new byte[2048];
+
+        try {
+            inputStream = Files.newInputStream(sourcePath);
+
+            byteArrayOutputStream = new ByteArrayOutputStream();
+
+            int readLength;
+
+            if (inputStream.available() > 0) {
+                while ( (readLength = inputStream.read(buffer, 0, buffer.length)) != -1 ) {
+                    byteArrayOutputStream.write(buffer, 0, readLength);
+                }
+                byteArray = byteArrayOutputStream.toByteArray();
+            }
+
+            inputStream.close();
+            byteArrayOutputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        byteArray = byteArrayOutputStream.toByteArray();
+        return byteArray;
+    }
+
     /**
      * <pre>
      * saveDataToFile
