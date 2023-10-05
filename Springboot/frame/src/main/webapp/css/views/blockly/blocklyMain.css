@@ -1,0 +1,32 @@
+@charset "UTF-8";
+/* 초기화 */
+input {padding:0; box-sizing:border-box;}
+p {margin:0;padding:0;}
+h2 {margin-bottom:10px; margin-top:1px;}
+
+#splitDiv .splitChildDiv:nth-child(1) {
+    height: 70%;
+    display: flex;
+}
+
+#splitDiv .splitChildDiv:nth-child(2) {
+    height: 30%;
+}
+
+#blocklyDiv {
+    width: 70%;
+}
+
+#previewDiv {
+    width: 30%;
+    border: 1px solid #000000;
+}
+
+#codeView {
+    height: 80%;
+    border: 1px solid #000000;
+}
+
+.blockControlBtn {
+    padding: 20px;
+}
