@@ -3,13 +3,13 @@ Blockly.defineBlocksWithJsonArray(get_allBlock())
 
 function get_allBlock() {
     let allBlock = [];
-    allBlock.push(get_HelloBlock());
-    allBlock.push(get_inputBoxBlock());
-    allBlock.push(get_buttonBlock());
+    allBlock.push(getBlock_hello());
+    allBlock.push(getBlock_inputBox());
+    allBlock.push(getBlock_button());
     return allBlock;
 }
 
-function get_HelloBlock() {
+function getBlock_hello() {
     return {
         type: 'hello',
         message0: '%1번 인사하기',
@@ -28,7 +28,7 @@ function get_HelloBlock() {
     }
 }
 
-function get_inputBoxBlock() {
+function getBlock_inputBox() {
     return {
         type: 'inputBox',
         message0: 'create Input Box UI: %1',
@@ -41,7 +41,7 @@ function get_inputBoxBlock() {
     }
 }
 
-function get_buttonBlock() {
+function getBlock_button() {
     return {
         type: 'button',
         message0: 'create Button UI: %1',

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="shortcut icon" href="#">
 </head>
 <body>
     <section class="main">

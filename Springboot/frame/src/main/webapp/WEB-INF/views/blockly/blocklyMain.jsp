@@ -11,6 +11,7 @@
     <title>Blockly Page</title>
 
     <link type="text/css" rel="stylesheet" href="/css/views/blockly/blocklyMain.css">
+    <link rel="shortcut icon" href="#">
 
     <!-- jQuery Lib -->
     <script type="text/javascript" src="/js/lib/jquery.min_1.12.4.js" defer></script>

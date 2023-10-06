@@ -38,5 +38,6 @@ function addEvent() {
     // 블럭 전체삭제 버튼 클릭 이벤트
     $('#deleteBlockBtn').click( () => {
         blocklyMain.workspace.clear();
+        $('#previewDiv').empty();
     })
 }
